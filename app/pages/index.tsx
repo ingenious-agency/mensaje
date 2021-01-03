@@ -26,18 +26,11 @@ const UserInfo = () => {
     )
   } else {
     return (
-      <>
-        <Link href="/signup">
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
-        </Link>
-        <Link href="/login">
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
-        </Link>
-      </>
+      <Link href="/api/auth/slack">
+        <a className="button small">
+          <strong>Login</strong>
+        </a>
+      </Link>
     )
   }
 }

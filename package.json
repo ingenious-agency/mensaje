@@ -35,6 +35,7 @@
     "@prisma/client": "~2.12",
     "@slack/web-api": "5.14.0",
     "blitz": "0.27.1",
+    "passport-slack": "0.0.7",
     "react": "0.0.0-experimental-4ead6b530",
     "react-dom": "0.0.0-experimental-4ead6b530",
     "react-error-boundary": "2.3.2",

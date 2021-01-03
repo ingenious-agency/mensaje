@@ -4,9 +4,10 @@ import LabeledTextField from "app/components/LabeledTextField"
 import createMessage from "app/messages/mutations/createMessage"
 import getChannels from "app/channels/queries/getChannels"
 import { MessageInput } from "app/messages/validations"
-import { BlitzPage, useMutation, useQuery } from "blitz"
+import { BlitzPage, useMutation, useQuery, useRouter } from "blitz"
 
 const NewMessage: BlitzPage = () => {
+  const router = useRouter()
   const [createMessageMutation] = useMutation(createMessage)
   const [channels] = useQuery(getChannels, {})
   return (
@@ -17,7 +18,8 @@ const NewMessage: BlitzPage = () => {
         initialValues={{ title: "", body: "", slackChannelId: "" }}
         onSubmit={async (values) => {
           try {
-            await createMessageMutation({ data: values })
+            const message = await createMessageMutation({ data: values })
+            router.push(`/messages/${message.id}`)
           } catch (error) {
             return { [FORM_ERROR]: error.toString() }
           }
