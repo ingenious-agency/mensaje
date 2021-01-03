@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -13,16 +13,15 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             String     @id @default(uuid())
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+  id             String    @id @default(uuid())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   name           String?
-  email          String     @unique
+  email          String    @unique
   hashedPassword String?
-  role           String     @default("user")
+  role           String    @default("user")
   sessions       Session[]
   messages       Message[]
-  reactions      Reaction[]
 }
 
 model Session {
@@ -40,25 +39,11 @@ model Session {
 }
 
 model Message {
-  id             String     @id @default(uuid())
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  title          String
-  body           String
-  user           User?      @relation(fields: [userId], references: [id])
-  userId         String?
-  slackChannelId String
-  reactions      Reaction[]
-}
-
-model Reaction {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  emoji     String
-  alt       String
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
-  message   Message? @relation(fields: [messageId], references: [id])
-  messageId String?
+  title     String
+  body      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }

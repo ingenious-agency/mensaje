@@ -1,3 +1,8 @@
 # Prisma Migrate lockfile v1
 
 20201231214134-initial-migration
+20201231215151-initial-migration
+20201231215653-add-message
+20210101232952-add-slack-channel-id-to-message
+20210101233226-make-user-optional-on-message
+20210102225156-add-reactions

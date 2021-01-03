@@ -1,18 +1,17 @@
 import React, { PropsWithoutRef } from "react"
 import { useFormContext } from "react-hook-form"
 
-export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
-  /** Field name. */
+export interface LabeledSelectProps extends PropsWithoutRef<JSX.IntrinsicElements["select"]> {
   name: string
-  /** Field label. */
   label: string
-  /** Field type. Doesn't include radio buttons and checkboxes */
-  type?: "text" | "password" | "email" | "number"
+  data: Array<any>
+  displayProperty: string
+  valueProperty: string
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
 }
 
-export const LabeledTextField = React.forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ label, outerProps, ...props }, ref) => {
+export const LabeledSelect = React.forwardRef<HTMLInputElement, LabeledSelectProps>(
+  ({ label, outerProps, data = [], valueProperty, displayProperty, ...props }, ref) => {
     const {
       register,
       formState: { isSubmitting },
@@ -26,7 +25,13 @@ export const LabeledTextField = React.forwardRef<HTMLInputElement, LabeledTextFi
       <div {...outerProps}>
         <label>
           {label}
-          <input disabled={isSubmitting} {...props} ref={register} />
+          <select disabled={isSubmitting} ref={register} {...props}>
+            {data.map((item) => (
+              <option key={item[valueProperty]} value={item[valueProperty]}>
+                {item[displayProperty]}
+              </option>
+            ))}
+          </select>
         </label>
 
         {error && (
@@ -39,4 +44,4 @@ export const LabeledTextField = React.forwardRef<HTMLInputElement, LabeledTextFi
   }
 )
 
-export default LabeledTextField
+export default LabeledSelect

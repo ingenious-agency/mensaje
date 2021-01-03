@@ -2,9 +2,9 @@ import { AppProps, ErrorComponent, useRouter, AuthenticationError, Authorization
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
 import LoginForm from "app/auth/components/LoginForm"
+import Layout from "app/layouts/Layout"
 
 export default function App({ Component, pageProps }: AppProps) {
-  const getLayout = Component.getLayout || ((page) => page)
   const router = useRouter()
 
   return (
@@ -17,7 +17,9 @@ export default function App({ Component, pageProps }: AppProps) {
         queryCache.resetErrorBoundaries()
       }}
     >
-      {getLayout(<Component {...pageProps} />)}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ErrorBoundary>
   )
 }

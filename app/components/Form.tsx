@@ -36,6 +36,7 @@ export function Form<S extends z.ZodType<any, any>>({
         }
         return { values, errors: {} }
       } catch (error) {
+        console.log(error)
         return { values: {}, errors: error.formErrors?.fieldErrors }
       }
     },
@@ -74,12 +75,6 @@ export function Form<S extends z.ZodType<any, any>>({
         <button type="submit" disabled={ctx.formState.isSubmitting}>
           {submitText}
         </button>
-
-        <style global jsx>{`
-          .form > * + * {
-            margin-top: 1rem;
-          }
-        `}</style>
       </form>
     </FormProvider>
   )
