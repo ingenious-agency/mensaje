@@ -8,8 +8,7 @@ export default async function deleteReaction({ where }: DeleteReactionInput, ctx
   ctx.session.authorize()
 
   let reaction = await getReaction({ where }, ctx)
-  if (reaction.userId !== ctx.session.userId)
-    throw new AuthorizationError("You are not allowed to delete this reaction")
+  if (reaction.userId !== ctx.session.userId) throw new AuthorizationError()
   reaction = await db.reaction.delete({ where })
 
   return reaction

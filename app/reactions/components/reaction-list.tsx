@@ -1,7 +1,7 @@
 import { Reaction } from "@prisma/client"
 import { EmojiKey, emojis } from "app/reactions/types"
 
-export type ReactionsProps = {
+export type ReactionListProps = {
   mine: Reaction[]
   others: Reaction[]
   onRemove: (emoji: EmojiKey) => void
@@ -9,7 +9,7 @@ export type ReactionsProps = {
 
 export type ReactionRecord = Record<EmojiKey, { count: number; hasMine: boolean; title: string }>
 
-export default function Reactions({ mine, others, onRemove }: ReactionsProps) {
+export default function ReactionList({ mine, others, onRemove }: ReactionListProps) {
   const reduce = (hasMine) => (acc, item) => {
     if (acc[item.emoji]) {
       acc[item.emoji].count = acc[item.emoji].count + 1

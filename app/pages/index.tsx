@@ -1,6 +1,7 @@
-import { Link, BlitzPage, useMutation } from "blitz"
+import { BlitzPage, useMutation } from "blitz"
 import logout from "app/auth/mutations/logout"
 import { useCurrentUser } from "app/hooks/useCurrentUser"
+import LoginButton from "app/auth/components/login-button"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -25,13 +26,7 @@ const UserInfo = () => {
       </>
     )
   } else {
-    return (
-      <Link href="/api/auth/slack">
-        <a className="button small">
-          <strong>Login</strong>
-        </a>
-      </Link>
-    )
+    return <LoginButton />
   }
 }
 

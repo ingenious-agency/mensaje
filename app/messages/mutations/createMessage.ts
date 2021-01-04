@@ -1,13 +1,13 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 import { WebClient } from "@slack/web-api"
-import { MessageInput } from "app/messages/validations"
+import { CreateMessageInput } from "app/messages/validations"
 
-type CreateMessageInput = Pick<Prisma.MessageCreateArgs, "data">
-export default async function createMessage({ data }: CreateMessageInput, ctx: Ctx) {
+type CreateMessageInputType = Pick<Prisma.MessageCreateArgs, "data">
+export default async function createMessage({ data }: CreateMessageInputType, ctx: Ctx) {
   ctx.session.authorize()
 
-  const { title, body, slackChannelId } = MessageInput.parse(data)
+  const { title, body, slackChannelId } = CreateMessageInput.parse(data)
 
   const message = await db.message.create({
     data: { title, body, slackChannelId, user: { connect: { id: ctx.session.userId } } },

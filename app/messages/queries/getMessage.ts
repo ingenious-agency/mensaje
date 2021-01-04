@@ -12,7 +12,7 @@ export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   if (!message) throw new NotFoundError()
 
   const member = await isMember(ctx.session.userId, message?.slackChannelId)
-  if (!member) throw new AuthorizationError("You are not allowed to access")
+  if (!member) throw new AuthorizationError()
 
   return message
 }

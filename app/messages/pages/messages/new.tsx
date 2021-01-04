@@ -3,7 +3,7 @@ import { LabeledSelect } from "app/components/LabeledSelect"
 import LabeledTextField from "app/components/LabeledTextField"
 import createMessage from "app/messages/mutations/createMessage"
 import getChannels from "app/channels/queries/getChannels"
-import { MessageInput } from "app/messages/validations"
+import { CreateMessageInput } from "app/messages/validations"
 import { BlitzPage, useMutation, useQuery, useRouter } from "blitz"
 
 const NewMessage: BlitzPage = () => {
@@ -14,7 +14,7 @@ const NewMessage: BlitzPage = () => {
     <div>
       <Form
         submitText="Create Message"
-        schema={MessageInput}
+        schema={CreateMessageInput}
         initialValues={{ title: "", body: "", slackChannelId: "" }}
         onSubmit={async (values) => {
           try {
