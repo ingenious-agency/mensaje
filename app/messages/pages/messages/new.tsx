@@ -1,15 +1,15 @@
 import Form, { FORM_ERROR } from "app/components/Form"
-import { LabeledSelect } from "app/components/LabeledSelect"
 import LabeledTextField from "app/components/LabeledTextField"
 import createMessage from "app/messages/mutations/createMessage"
-import getChannels from "app/channels/queries/getChannels"
 import { CreateMessageInput } from "app/messages/validations"
-import { BlitzPage, useMutation, useQuery, useRouter } from "blitz"
+import { BlitzPage, useMutation, useRouter } from "blitz"
+import { Suspense } from "react"
+import SlackChannelPicker from "app/messages/components/slack-channel-picker"
 
 const NewMessage: BlitzPage = () => {
   const router = useRouter()
   const [createMessageMutation] = useMutation(createMessage)
-  const [channels] = useQuery(getChannels, {})
+
   return (
     <div>
       <Form
@@ -27,13 +27,9 @@ const NewMessage: BlitzPage = () => {
       >
         <LabeledTextField name="title" label="Title" placeholder="Title" />
         <LabeledTextField name="body" label="Body" placeholder="Body" />
-        <LabeledSelect
-          name="slackChannelId"
-          label="Slack channel"
-          data={channels.channels as any}
-          displayProperty="name"
-          valueProperty="id"
-        />
+        <Suspense fallback={<p>Loading channels</p>}>
+          <SlackChannelPicker name="slackChannelId" label="Slack channel" />
+        </Suspense>
       </Form>
     </div>
   )
