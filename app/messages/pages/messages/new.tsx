@@ -1,5 +1,6 @@
 import Form, { FORM_ERROR } from "app/components/Form"
 import LabeledTextField from "app/components/LabeledTextField"
+import LabeledTextArea from "app/components/LabeledTextArea"
 import createMessage from "app/messages/mutations/createMessage"
 import { CreateMessageInput } from "app/messages/validations"
 import { BlitzPage, useMutation, useRouter } from "blitz"
@@ -26,7 +27,7 @@ const NewMessage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="title" label="Title" placeholder="Title" />
-        <LabeledTextField name="body" label="Body" placeholder="Body" />
+        <LabeledTextArea name="body" label="Body" placeholder="Body" />
         <Suspense fallback={<p>Loading channels</p>}>
           <SlackChannelPicker name="slackChannelId" label="Slack channel" />
         </Suspense>

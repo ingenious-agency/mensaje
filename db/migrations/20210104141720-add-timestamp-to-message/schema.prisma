@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -13,17 +13,16 @@ generator client {
 // --------------------------------------
 
 model User {
-  id                String     @id @default(uuid())
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
-  name              String?
-  email             String     @unique
-  role              String     @default("user")
-  slackUserId       String
-  slackAccessToken  String     @default("")
-  sessions          Session[]
-  messages          Message[]
-  reactions         Reaction[]
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  name        String?
+  email       String     @unique
+  role        String     @default("user")
+  slackUserId String
+  sessions    Session[]
+  messages    Message[]
+  reactions   Reaction[]
 }
 
 model Session {

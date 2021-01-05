@@ -1,2 +1,8 @@
 export type EmojiKey = "👏" | "🤗" | "🚀" | "🤔" | "👀"
-export const emojis = { "👏": "clap", "🤗": "hug", "🚀": "ship", "🤔": "thinking", "👀": "looking" }
+export const emojis = {
+  "👏": "clap",
+  "🤗": "hugging_face",
+  "🚀": "rocket",
+  "🤔": "thinking_face",
+  "👀": "eyes",
+}

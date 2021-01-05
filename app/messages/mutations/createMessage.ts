@@ -11,13 +11,14 @@ export default async function createMessage({ data }: CreateMessageInputType, ct
 
   const message = await db.message.create({
     data: { title, body, slackChannelId, user: { connect: { id: ctx.session.userId } } },
+    include: { user: true },
   })
 
-  const web = new WebClient(process.env.SLACK_TOKEN)
+  const web = new WebClient(message.user?.slackAccessToken)
 
   const user = await db.user.findUnique({ where: { id: ctx.session.userId } })
 
-  await web.chat.postMessage({
+  const slackMessage = await web.chat.postMessage({
     text: "",
     channel: slackChannelId,
     blocks: [
@@ -25,7 +26,7 @@ export default async function createMessage({ data }: CreateMessageInputType, ct
         type: "header",
         text: {
           type: "plain_text",
-          text: `${user?.name ?? user?.email} has published a new post`,
+          text: title,
           emoji: true,
         },
       },
@@ -58,6 +59,11 @@ export default async function createMessage({ data }: CreateMessageInputType, ct
         },
       },
     ],
+  })
+
+  await db.message.update({
+    data: { slackTimeStamp: slackMessage.ts as string },
+    where: { id: message.id },
   })
 
   return message

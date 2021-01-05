@@ -18,7 +18,7 @@ export default passportAuth({
               ? `${process.env.WEBSITE_URL}/api/auth/slack/callback`
               : "http://localhost:3000/api/auth/slack/callback",
         },
-        async (_accessToken, _refreshToken, profile, done) => {
+        async (accessToken, _refreshToken, profile, done) => {
           const email = profile.user.email
           const user = await db.user.upsert({
             where: { email },
@@ -26,10 +26,10 @@ export default passportAuth({
               email,
               name: profile.displayName,
               slackUserId: profile.id,
+              slackAccessToken: accessToken,
             },
-            update: { email },
+            update: { email, slackAccessToken: accessToken },
           })
-          console.log("user", user)
           const publicData = { userId: user.id, roles: [user.role], source: "slack" }
           done(null, { publicData })
         }
