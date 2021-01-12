@@ -11,7 +11,7 @@ export default async function updateMessage({ where, data }: UpdateMessageInputT
 
   const { title, body } = UpdateMessageInput.parse(data)
 
-  const message = await db.message.update({ where, data: { title, body } })
+  const message = await db.message.update({ where, data: { title, body }, include: { user: true } })
 
   return message
 }

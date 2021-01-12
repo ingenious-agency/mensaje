@@ -11,6 +11,7 @@ export default function SlackChannelPicker({ name, label }: { name: string; labe
       data={channels.channels as any}
       displayProperty="name"
       valueProperty="id"
+      showErrorMessage={false}
     />
   )
 }

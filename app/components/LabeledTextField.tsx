@@ -21,12 +21,18 @@ export const LabeledTextField = React.forwardRef<HTMLInputElement, LabeledTextFi
     const error = Array.isArray(errors[props.name])
       ? errors[props.name].join(", ")
       : errors[props.name]?.message || errors[props.name]
-
     return (
-      <div {...outerProps}>
+      <div className="mt-8" {...outerProps}>
         <label>
-          {label}
-          <input disabled={isSubmitting} {...props} ref={register} />
+          <div className="text-base">{label}</div>
+          <input
+            className={`border-gray-default border rounded outline-none pl-4 pt-2 pb-2 pr-4 mt-1 w-full ${
+              error && "border-red-500"
+            }`}
+            disabled={isSubmitting}
+            {...props}
+            ref={register}
+          />
         </label>
 
         {error && (

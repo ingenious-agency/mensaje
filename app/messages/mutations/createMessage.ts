@@ -16,8 +16,6 @@ export default async function createMessage({ data }: CreateMessageInputType, ct
 
   const web = new WebClient(message.user?.slackAccessToken)
 
-  const user = await db.user.findUnique({ where: { id: ctx.session.userId } })
-
   const slackMessage = await web.chat.postMessage({
     text: "",
     channel: slackChannelId,

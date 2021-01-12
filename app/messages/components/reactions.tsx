@@ -1,8 +1,8 @@
-import ReactionPicker from "app/reactions/components/reaction-picker"
 import ReactionList from "app/reactions/components/reaction-list"
 import createReaction from "app/reactions/mutations/createReaction"
 import deleteReaction from "app/reactions/mutations/deleteReaction"
 import getReactions from "app/reactions/queries/getReactions"
+import { emojis } from "app/reactions/types"
 import { useMutation, useQuery } from "blitz"
 
 const getReactionsCondition = ({ messageId, userId, include }) => ({
@@ -32,10 +32,20 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
   const [deleteReactionMutation] = useMutation(deleteReaction)
   return (
     <>
-      {myReactions && othersReactions && (
+      {
         <ReactionList
-          mine={myReactions.reactions}
-          others={othersReactions.reactions}
+          mine={myReactions?.reactions}
+          others={othersReactions?.reactions}
+          onCreate={async (emoji) => {
+            await createReactionMutation({
+              data: {
+                message: { connect: { id: messageId } },
+                emoji: emoji,
+                alt: emojis[emoji],
+              },
+            })
+            await refetchMine()
+          }}
           onRemove={async (emoji) => {
             const reaction = myReactions.reactions.find((reaction) => reaction.emoji === emoji)
             if (reaction) {
@@ -46,19 +56,7 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
             }
           }}
         />
-      )}
-      <ReactionPicker
-        onChange={async (emoji) => {
-          await createReactionMutation({
-            data: {
-              message: { connect: { id: messageId } },
-              emoji: Object.keys(emoji)[0],
-              alt: Object.values(emoji)[0],
-            },
-          })
-          await refetchMine()
-        }}
-      />
+      }
     </>
   )
 }

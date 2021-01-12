@@ -1,12 +1,13 @@
 import React, { useState, ReactNode, PropsWithoutRef } from "react"
-import { FormProvider, useForm, UseFormOptions } from "react-hook-form"
+import { FormProvider, useForm, UseFormMethods, UseFormOptions } from "react-hook-form"
 import * as z from "zod"
+import BottomBar from "./bottom-bar"
+import Button from "./Button"
 
 type FormProps<S extends z.ZodType<any, any>> = {
-  /** All your form fields */
   children: ReactNode
-  /** Text to display in the submit button */
   submitText: string
+  bottomContent?: (ctx: UseFormMethods<z.TypeOf<S>>) => ReactNode
   schema?: S
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
   initialValues?: UseFormOptions<z.infer<S>>["defaultValues"]
@@ -22,6 +23,7 @@ export const FORM_ERROR = "FORM_ERROR"
 export function Form<S extends z.ZodType<any, any>>({
   children,
   submitText,
+  bottomContent,
   schema,
   initialValues,
   onSubmit,
@@ -71,11 +73,18 @@ export function Form<S extends z.ZodType<any, any>>({
             {formError}
           </div>
         )}
-
-        <button type="submit" disabled={ctx.formState.isSubmitting}>
-          {submitText}
-        </button>
+        <BottomBar>
+          <div>{bottomContent && bottomContent(ctx)}</div>
+          <Button type="submit" disabled={ctx.formState.isSubmitting}>
+            {submitText}
+          </Button>
+        </BottomBar>
       </form>
+      <style jsx global>{`
+        body {
+          margin-bottom: 5rem;
+        }
+      `}</style>
     </FormProvider>
   )
 }

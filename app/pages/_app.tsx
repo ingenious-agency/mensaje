@@ -4,6 +4,8 @@ import { queryCache } from "react-query"
 import LoginButton from "app/auth/components/login-button"
 import Layout from "app/layouts/Layout"
 
+import "app/styles/index.css"
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 

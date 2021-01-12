@@ -1,42 +1,15 @@
-import { BlitzPage, useMutation } from "blitz"
-import logout from "app/auth/mutations/logout"
-import { useCurrentUser } from "app/hooks/useCurrentUser"
+import { BlitzPage } from "blitz"
+import { Suspense } from "react"
 import LoginButton from "app/auth/components/login-button"
-
-const UserInfo = () => {
-  const currentUser = useCurrentUser()
-  const [logoutMutation] = useMutation(logout)
-
-  if (currentUser) {
-    return (
-      <>
-        <button
-          className="button small"
-          onClick={async () => {
-            await logoutMutation()
-          }}
-        >
-          Logout
-        </button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
-      </>
-    )
-  } else {
-    return <LoginButton />
-  }
-}
 
 const Home: BlitzPage = () => {
   return (
-    <div className="container">
-      <main>
-        <UserInfo />
-      </main>
-    </div>
+    <main className="flex justify-center items-center h-screen bg-black">
+      <Suspense fallback={<p className="text-white absolute top-4 right-4">Loading your name</p>}>
+        <LoginButton />
+      </Suspense>
+      <img src="/logo.svg" alt="Mensaje Logo" />
+    </main>
   )
 }
 

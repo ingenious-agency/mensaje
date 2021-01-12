@@ -1,8 +1,10 @@
 import { BlitzPage, Link, useParam, useQuery, useSession } from "blitz"
 import getMessage from "app/messages/queries/getMessage"
 import { Suspense } from "react"
-import SlackChannel from "app/messages/components/slack-channel"
+import SlackChannel, { SlackChannelFallback } from "app/messages/components/slack-channel"
 import Reactions from "app/messages/components/reactions"
+import BottomBar from "app/components/bottom-bar"
+import LinkButton from "app/components/LinkButton"
 
 const ShowMessage: BlitzPage = () => {
   const id = useParam("id", "string")
@@ -10,22 +12,30 @@ const ShowMessage: BlitzPage = () => {
   const [message] = useQuery(getMessage, { where: { id } })
 
   return (
-    <div>
-      <h1>{message.title}</h1>
-      <p>{message.body}</p>
-      <p>
+    <div className="max-w-3xl m-auto mt-9">
+      <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
+
+      <div className="text-xss mb-4">
+        {message.user?.name} on{" "}
+        <Suspense fallback={<SlackChannelFallback />}>
+          <SlackChannel channelId={message.slackChannelId} />
+        </Suspense>
+      </div>
+
+      <h1 className="text-4xl font-medium mb-6">{message.title}</h1>
+      <p className="font-light">{message.body}</p>
+      <BottomBar>
+        <div>
+          <Suspense fallback="Loading reactions">
+            <Reactions messageId={message.id} userId={session.userId} />
+          </Suspense>
+        </div>
         {message.userId === session.userId && (
           <Link href={`/messages/${message.id}/edit`}>
-            <a>Edit</a>
+            <LinkButton>Edit</LinkButton>
           </Link>
         )}
-      </p>
-      <Suspense fallback="#channel">
-        <SlackChannel channelId={message.slackChannelId} />
-      </Suspense>
-      <Suspense fallback="Loading reactions">
-        <Reactions messageId={message.id} userId={session.userId} />
-      </Suspense>
+      </BottomBar>
     </div>
   )
 }

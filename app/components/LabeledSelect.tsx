@@ -8,10 +8,22 @@ export interface LabeledSelectProps extends PropsWithoutRef<JSX.IntrinsicElement
   displayProperty: string
   valueProperty: string
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
+  showErrorMessage?: boolean
 }
 
 export const LabeledSelect = React.forwardRef<HTMLInputElement, LabeledSelectProps>(
-  ({ label, outerProps, data = [], valueProperty, displayProperty, ...props }, ref) => {
+  (
+    {
+      label,
+      outerProps,
+      data = [],
+      valueProperty,
+      displayProperty,
+      showErrorMessage = true,
+      ...props
+    },
+    ref
+  ) => {
     const {
       register,
       formState: { isSubmitting },
@@ -23,22 +35,33 @@ export const LabeledSelect = React.forwardRef<HTMLInputElement, LabeledSelectPro
 
     return (
       <div {...outerProps}>
-        <label>
-          {label}
-          <select disabled={isSubmitting} ref={register} {...props}>
-            {data.map((item) => (
-              <option key={item[valueProperty]} value={item[valueProperty]}>
-                {item[displayProperty]}
-              </option>
-            ))}
-          </select>
-        </label>
+        <select
+          aria-label={label}
+          disabled={isSubmitting}
+          ref={register}
+          className={`select appearance-none bg-transparent border border-gray-default outline-none px-4 py-1 cursor-pointer text-gray-700 ${
+            error && "border-red-500"
+          }`}
+          {...props}
+        >
+          <option value={label}>{label}</option>
+          {data.map((item) => (
+            <option key={item[valueProperty]} value={item[valueProperty]}>
+              # {item[displayProperty]}
+            </option>
+          ))}
+        </select>
 
-        {error && (
-          <div role="alert" style={{ color: "red" }}>
+        {error && showErrorMessage && (
+          <div role="alert" className="ml-2 text-red-500">
             {error}
           </div>
         )}
+        <style jsx>{`
+          .select {
+            background: url("/caret-down.svg") no-repeat calc(100% - 1rem) 50%;
+          }
+        `}</style>
       </div>
     )
   }

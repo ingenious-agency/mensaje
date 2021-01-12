@@ -3,12 +3,14 @@ import { Channel } from "app/channels/types"
 import { AuthorizationError, Ctx, NotFoundError } from "blitz"
 import db, { Prisma } from "db"
 
-type GetMessageInput = Pick<Prisma.FindFirstMessageArgs, "where">
+type GetMessageInput = Pick<Prisma.FindFirstMessageArgs, "where" | "include">
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   ctx.session.authorize()
-
-  const message = await db.message.findFirst({ where })
+  await delay(2000)
+  const message = await db.message.findFirst({ where, include: { user: true } })
   if (!message) throw new NotFoundError()
 
   const member = await isMember(ctx.session.userId, message?.slackChannelId)
