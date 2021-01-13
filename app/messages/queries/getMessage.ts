@@ -9,7 +9,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   ctx.session.authorize()
-  await delay(2000)
+  await delay(1000)
   const message = await db.message.findFirst({ where, include: { user: true } })
   if (!message) throw new NotFoundError()
 
