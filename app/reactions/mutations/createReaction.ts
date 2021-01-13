@@ -4,11 +4,8 @@ import db, { Prisma } from "db"
 
 type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
 
-const delay = (ms = 4000) => new Promise((resolve) => setTimeout(resolve, ms))
-
 export default async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   ctx.session.authorize()
-  await delay()
   const existingReaction = await db.reaction.findFirst({
     where: {
       userId: ctx.session.userId,

@@ -5,11 +5,8 @@ import db, { Prisma } from "db"
 
 type GetMessageInput = Pick<Prisma.FindFirstMessageArgs, "where" | "include">
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
 export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   ctx.session.authorize()
-  await delay(1000)
   const message = await db.message.findFirst({ where, include: { user: true } })
   if (!message) throw new NotFoundError()
 

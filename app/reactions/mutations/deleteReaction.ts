@@ -5,12 +5,9 @@ import RemoveQueue from "app/api/reactions/remove"
 
 type DeleteReactionInput = Pick<Prisma.ReactionDeleteArgs, "where">
 
-const delay = (ms = 4000) => new Promise((resolve) => setTimeout(resolve, ms))
-
 export default async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
   ctx.session.authorize()
 
-  await delay()
   const existingReaction = await getReaction({ where }, ctx)
   if (existingReaction.userId !== ctx.session.userId) throw new AuthorizationError()
   const reaction = await db.reaction.delete({
