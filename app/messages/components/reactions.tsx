@@ -55,13 +55,17 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
               },
               { refetch: false }
             )
-            await createReactionMutation({
-              data: {
-                message: { connect: { id: messageId } },
-                emoji: emoji,
-                alt: emojis[emoji],
-              },
-            })
+            try {
+              await createReactionMutation({
+                data: {
+                  message: { connect: { id: messageId } },
+                  emoji: emoji,
+                  alt: emojis[emoji],
+                },
+              })
+            } catch (e) {
+              console.error(e)
+            }
             await refetch()
           }}
           onRemove={async (emoji) => {
@@ -75,9 +79,13 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
                 },
                 { refetch: false }
               )
-              await deleteReactionMutation({
-                where: { id: reaction.id },
-              })
+              try {
+                await deleteReactionMutation({
+                  where: { id: reaction.id },
+                })
+              } catch (e) {
+                console.error(e)
+              }
               await refetch()
             }
           }}
