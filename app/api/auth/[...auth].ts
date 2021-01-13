@@ -19,9 +19,7 @@ export default passportAuth({
               : "http://localhost:3000/api/auth/slack/callback",
         },
         async (accessToken, _refreshToken, profile, done) => {
-          console.log("accessToken", accessToken)
           const email = profile.user.email
-          console.log("email", email)
           const user = await db.user.upsert({
             where: { email },
             create: {
