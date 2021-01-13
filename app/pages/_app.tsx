@@ -50,7 +50,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
     return (
       <ErrorComponent
         statusCode={(error as any)?.statusCode || 400}
-        title={error?.message || error?.name}
+        title={JSON.stringify(error)}
       />
     )
   }
