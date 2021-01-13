@@ -35,7 +35,7 @@ const ShowMessage: BlitzPage = () => {
             },
             p: {
               props: {
-                className: "text-light",
+                className: "text-light mb-2",
               },
             },
           },

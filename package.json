@@ -7,7 +7,8 @@
     "build": "NODE_ENV=production blitz db migrate && blitz build",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "quirrel": "quirrel"
   },
   "browserslist": [
     "defaults"
@@ -33,6 +34,7 @@
   "dependencies": {
     "@prisma/cli": "~2.12",
     "@prisma/client": "~2.12",
+    "@quirrel/next": "0.10.0",
     "@slack/web-api": "5.14.0",
     "blitz": "0.27.1",
     "lodash": "4.17.20",
@@ -76,6 +78,7 @@
     "postcss": "8",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
+    "quirrel": "1.0.1",
     "react-test-renderer": "16.14.0",
     "ts-jest": "26.4.4"
   },

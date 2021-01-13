@@ -1,11 +1,14 @@
 import { Ctx } from "blitz"
+import AddQueue from "app/api/reactions/add"
 import db, { Prisma } from "db"
-import { WebClient } from "@slack/web-api"
 
 type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
+
+const delay = (ms = 4000) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export default async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   ctx.session.authorize()
-
+  await delay()
   const existingReaction = await db.reaction.findFirst({
     where: {
       userId: ctx.session.userId,
@@ -20,12 +23,12 @@ export default async function createReaction({ data }: CreateReactionInput, ctx:
     include: { message: { include: { user: true } } },
   })
 
-  if (reaction.message?.slackTimeStamp) {
-    const web = new WebClient(reaction.message.user?.slackAccessToken)
-    web.reactions.add({
-      name: data.alt,
-      timestamp: reaction.message?.slackTimeStamp,
+  if (reaction.message?.slackTimeStamp && reaction.message.user?.slackAccessToken) {
+    await AddQueue.enqueue({
       channel: reaction.message.slackChannelId,
+      timestamp: reaction.message.slackTimeStamp,
+      name: data.alt,
+      userToken: reaction.message.user?.slackAccessToken,
     })
   }
 
