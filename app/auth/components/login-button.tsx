@@ -6,7 +6,7 @@ export default function LoginButton() {
   const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   return (
-    <div className="text-white absolute top-4 right-4">
+    <div className="text-white absolute top-2 right-2 text-xs">
       {user ? `${user?.name || user?.email} | ` : <a href="/api/auth/slack">Login</a>}
       {user && <button onClick={async () => await logoutMutation()}>Logout</button>}
     </div>

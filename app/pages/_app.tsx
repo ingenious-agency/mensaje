@@ -5,6 +5,7 @@ import LoginButton from "app/auth/components/login-button"
 import Layout from "app/layouts/Layout"
 
 import "app/styles/index.css"
+import { Suspense } from "react"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -28,7 +29,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   if (error instanceof AuthenticationError) {
-    return <LoginButton />
+    return (
+      <main className="flex justify-center items-center h-screen bg-black">
+        <Suspense
+          fallback={<p className="text-white absolute top-4 right-4 text-xs">Loading your name</p>}
+        >
+          <LoginButton />
+        </Suspense>
+        <img src="/logo.svg" alt="Mensaje Logo" />
+      </main>
+    )
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent

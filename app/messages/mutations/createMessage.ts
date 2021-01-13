@@ -1,5 +1,6 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
+import toSlackMarkdown from "slackify-markdown"
 import { WebClient } from "@slack/web-api"
 import { CreateMessageInput } from "app/messages/validations"
 
@@ -35,7 +36,7 @@ export default async function createMessage({ data }: CreateMessageInputType, ct
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `${body.substring(0, 250)}...`,
+          text: toSlackMarkdown(`${body.substring(0, 250)}...`),
         },
       },
       {

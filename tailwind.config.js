@@ -11,6 +11,9 @@ module.exports = {
           350: "#F2F2F2",
           300: "#F4F4F5",
         },
+        blue: {
+          default: "#108CFF",
+        },
       },
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],

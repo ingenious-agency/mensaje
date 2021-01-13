@@ -1,4 +1,5 @@
 import { BlitzPage, Link, useParam, useQuery, useSession } from "blitz"
+import Markdown from "markdown-to-jsx"
 import getMessage from "app/messages/queries/getMessage"
 import { Suspense } from "react"
 import SlackChannel, { SlackChannelFallback } from "app/messages/components/slack-channel"
@@ -23,7 +24,25 @@ const ShowMessage: BlitzPage = () => {
       </div>
 
       <h1 className="text-4xl font-medium mb-6">{message.title}</h1>
-      <p className="font-light">{message.body}</p>
+      <Markdown
+        options={{
+          forceWrapper: true,
+          overrides: {
+            a: {
+              props: {
+                className: "leading-relaxed text-blue-default hover:underline",
+              },
+            },
+            p: {
+              props: {
+                className: "text-light",
+              },
+            },
+          },
+        }}
+      >
+        {message.body}
+      </Markdown>
       <BottomBar>
         <div>
           <Suspense fallback="Loading reactions">
