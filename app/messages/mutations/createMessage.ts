@@ -4,9 +4,9 @@ import { CreateMessageInput } from "app/messages/validations"
 import CreateQueue from "app/api/messages/create"
 
 type CreateMessageInputType = Pick<Prisma.MessageCreateArgs, "data">
+
 export default async function createMessage({ data }: CreateMessageInputType, ctx: Ctx) {
   ctx.session.authorize()
-
   const { title, body, slackChannelId } = CreateMessageInput.parse(data)
 
   const message = await db.message.create({

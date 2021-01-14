@@ -10,11 +10,12 @@ const EditMessage: BlitzPage = () => {
   const router = useRouter()
   const id = useParam("id", "string")
   const [message, { setQueryData }] = useQuery(getMessage, { where: { id } })
-  const [updateMessageMutation] = useMutation(updateMessage)
+  const [updateMessageMutation, { isLoading }] = useMutation(updateMessage)
   return (
     <div className="max-w-3xl m-auto mt-9">
       <img src="/logo-white.svg" alt="Mensaje Logo" />
       <Form
+        isLoading={isLoading}
         submitText="Update Message"
         schema={UpdateMessageInput}
         initialValues={message}

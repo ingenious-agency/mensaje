@@ -13,12 +13,13 @@ const NewMessage: BlitzPage = () => {
   const channel = Object.keys(query).includes("channel")
     ? (query["channel"] as string)
     : "Slack channel"
-  const [createMessageMutation] = useMutation(createMessage)
+  const [createMessageMutation, { isLoading }] = useMutation(createMessage)
 
   return (
     <div className="max-w-3xl m-auto mt-9">
       <img src="/logo-white.svg" alt="Mensaje Logo" />
       <Form
+        isLoading={isLoading}
         submitText="Create Message"
         schema={CreateMessageInput}
         initialValues={{ title: "", body: "", slackChannelId: channel }}
