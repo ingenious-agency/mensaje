@@ -2,7 +2,7 @@ import createReaction from "app/reactions/mutations/createReaction"
 import deleteReaction from "app/reactions/mutations/deleteReaction"
 import getReactions from "app/reactions/queries/getReactions"
 import { EmojiKey, emojis } from "app/reactions/types"
-import { useMutation, useQuery } from "blitz"
+import { useMutation, useQuery, setQueryData } from "blitz"
 import { groupBy, pipe, pick, size, compact, curry } from "lodash/fp"
 
 const getReactionsCondition = ({ messageId, userId, include }) => ({
@@ -23,7 +23,7 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
     getReactionsCondition({ messageId, userId, include: false }),
     { enabled: !!userId }
   )
-  const [myReactions, { refetch, setQueryData }] = useQuery(
+  const [myReactions, { refetch }] = useQuery(
     getReactions,
     getReactionsCondition({ messageId, userId, include: true }),
     { enabled: !!userId }
@@ -57,7 +57,12 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
         ]),
         count: myReactions.count + 1,
       }
-      setQueryData(queryData, { refetch: false })
+      setQueryData(
+        getReactions,
+        getReactionsCondition({ messageId, userId, include: true }),
+        queryData,
+        { refetch: false }
+      )
       await createReactionMutation({
         data: {
           message: { connect: { id: messageId } },
@@ -82,7 +87,12 @@ export default function Reactions({ messageId, userId }: ReactionsProps) {
         reactions: myReactions.reactions.filter((item) => item.id !== reaction?.id),
         count: myReactions.count - 1,
       }
-      setQueryData(queryData, { refetch: false })
+      setQueryData(
+        getReactions,
+        getReactionsCondition({ messageId, userId, include: true }),
+        queryData,
+        { refetch: false }
+      )
       await deleteReactionMutation({
         where: { id: reaction.id },
       })
