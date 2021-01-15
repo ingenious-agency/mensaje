@@ -4,14 +4,6 @@ import deleteReaction from "app/reactions/mutations/deleteReaction"
 import getReactions from "app/reactions/queries/getReactions"
 import { EmojiKey, emojis } from "app/reactions/types"
 import { useMutation, useQuery, setQueryData } from "blitz"
-import { groupBy, pipe, pick, size, compact, curry } from "lodash/fp"
-
-const getReactionsCondition = ({ messageId, userId, include }) => ({
-  where: {
-    message: { id: { equals: messageId } },
-    user: { id: { [include ? "equals" : "not"]: userId } },
-  },
-})
 
 export type ReactionsProps = {
   messageId: string
@@ -35,7 +27,7 @@ type ReactionButtonProps = {
 }
 
 function ReactionButton({ messageId, userId, emoji }: ReactionButtonProps) {
-  const [reactionsQuery, { refetch }] = useQuery(getReactions, {
+  const [reactionsQuery] = useQuery(getReactions, {
     where: { message: { id: { equals: messageId } }, emoji },
   })
   const [createReactionMutation, { isLoading: isCreating }] = useMutation(createReaction)
@@ -53,7 +45,7 @@ function ReactionButton({ messageId, userId, emoji }: ReactionButtonProps) {
       }}
       className={`flex items-center justify-center mr-2 cursor-pointer hover:bg-gray-350 border-none ${
         reaction && "bg-gray-350"
-      }`}
+      } ${(isCreating || isDeleting) && "animate-pulse"}`}
       disabled={isCreating || isDeleting}
       onClick={async () => {
         try {
