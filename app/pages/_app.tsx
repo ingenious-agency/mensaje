@@ -3,6 +3,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
 import LoginButton from "app/auth/components/login-button"
 import Layout from "app/layouts/Layout"
+import InstallApp from "app/components/install-app"
 
 import "app/styles/index.css"
 import { Suspense } from "react"
@@ -46,6 +47,8 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         title="Sorry, you are not authorized to access this"
       />
     )
+  } else if ((error as any)?.code === "slack_webapi_platform_error") {
+    return <InstallApp />
   } else {
     return (
       <ErrorComponent

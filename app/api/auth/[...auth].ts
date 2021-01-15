@@ -30,7 +30,6 @@ export default passportAuth({
             },
             update: { email, slackAccessToken: accessToken },
           })
-          console.log("user", user)
           const publicData = { userId: user.id, roles: [user.role], source: "slack" }
           done(null, { publicData })
         }
