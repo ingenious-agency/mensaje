@@ -18,7 +18,7 @@ export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
 
 async function isMember(userId, channelId) {
   const user = await db.user.findUnique({ where: { id: userId } })
-  const web = new WebClient(process.env.SLACK_TOKEN)
+  const web = new WebClient(user?.slackAccessToken)
   const result = (await web.users.conversations({
     user: user?.slackUserId,
   })) as WebAPICallResult & { channels: Channel[] }
