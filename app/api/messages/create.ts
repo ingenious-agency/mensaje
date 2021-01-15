@@ -51,7 +51,7 @@ export default Queue<CreateType>(
               emoji: true,
             },
             value: "click_me_123",
-            url: `${process.env.WEBSITE_URL}/messages/${messageId}`,
+            url: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/messages/${messageId}`,
             action_id: "button-action",
           },
         },

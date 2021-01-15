@@ -15,7 +15,7 @@ export default passportAuth({
           scope: ["identity.basic", "identity.email", "identity.avatar", "identity.team"],
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? `${process.env.WEBSITE_URL}/api/auth/slack/callback`
+              ? `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/auth/slack/callback`
               : "http://localhost:3000/api/auth/slack/callback",
         },
         async (accessToken, _refreshToken, profile, done) => {
