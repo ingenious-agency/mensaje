@@ -1,8 +1,10 @@
-import { BlitzPage } from "blitz"
+import { BlitzPage, useRouterQuery } from "blitz"
 import { Suspense } from "react"
 import LoginButton from "app/auth/components/login-button"
 
 const Home: BlitzPage = () => {
+  const query: { installSuccess?: number } = useRouterQuery()
+
   return (
     <main className="flex justify-center items-center h-screen bg-black">
       <Suspense
@@ -11,6 +13,11 @@ const Home: BlitzPage = () => {
         <LoginButton />
       </Suspense>
       <img src="/logo.svg" alt="Mensaje Logo" />
+      {query.installSuccess && (
+        <p className="text-white absolute bottom-1/2 right-1/3 text-xs">
+          Thanks for installing Mensaje
+        </p>
+      )}
     </main>
   )
 }
