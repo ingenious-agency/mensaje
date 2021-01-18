@@ -1,6 +1,26 @@
 // tailwind.config.js
 module.exports = {
-  purge: ["{app,pages}/**/*.{js,jsx,ts,tsx}"],
+  purge: {
+    content: ["{app,pages}/**/*.{js,jsx,ts,tsx}"],
+    options: {
+      safelist: [
+        "leading-relaxed",
+        "text-blue-default",
+        "hover:underline",
+        "text-light",
+        "mb-2",
+        "text-base",
+        "font-medium",
+        "mb-1",
+        "mt-6",
+        "list-disc",
+        "list-inside",
+        "font-mono",
+        "px-1",
+        "text-sm",
+      ],
+    },
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -17,6 +37,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Montserrat", "sans-serif"],
+        mono: ["IBM Plex Mono", "monospace"],
       },
       fontSize: {
         xss: ["0.625rem", "0.875rem"],

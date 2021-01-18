@@ -35,7 +35,25 @@ const ShowMessage: BlitzPage = () => {
             },
             p: {
               props: {
-                className: "text-light mb-2",
+                className: "text-light mb-4",
+              },
+            },
+            h1: {
+              props: {
+                className: "text-base font-medium mb-2 mt-8",
+              },
+            },
+            li: {
+              props: {
+                className: "list-disc list-inside",
+              },
+            },
+            code: {
+              props: {
+                className: "font-mono px-1 text-sm",
+                style: {
+                  color: "#FF7E32",
+                },
               },
             },
           },
