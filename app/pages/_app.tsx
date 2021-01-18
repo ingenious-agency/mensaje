@@ -1,12 +1,10 @@
 import { AppProps, ErrorComponent, useRouter, AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
-import LoginButton from "app/auth/components/login-button"
 import Layout from "app/layouts/Layout"
-import InstallApp from "app/components/install-app"
 
 import "app/styles/index.css"
-import { Suspense } from "react"
+import { useEffect } from "react"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -29,15 +27,24 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  const router = useRouter()
+  useEffect(() => {
+    if (error && (error as any)?.code === "slack_webapi_platform_error") {
+      localStorage.setItem("backTo", router.asPath)
+    }
+  }, [error, router])
+
   if (error instanceof AuthenticationError) {
     return (
-      <main className="flex justify-center items-center h-screen bg-black">
-        <Suspense
-          fallback={<p className="text-white absolute top-4 right-4 text-xs">Loading your name</p>}
-        >
-          <LoginButton />
-        </Suspense>
+      <main className="flex flex-col justify-center items-center h-screen bg-black">
         <img src="/logo.svg" alt="Mensaje Logo" />
+        <p className="text-white text-xs mt-8">
+          Please{" "}
+          <a className="underline" href={`/api/auth/slack?redirectUrl=${router.asPath}`}>
+            login
+          </a>{" "}
+          to continue.
+        </p>
       </main>
     )
   } else if (error instanceof AuthorizationError) {
@@ -48,7 +55,21 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       />
     )
   } else if ((error as any)?.code === "slack_webapi_platform_error") {
-    return <InstallApp />
+    return (
+      <main className="flex flex-col justify-center items-center h-screen bg-black">
+        <img src="/logo.svg" alt="Mensaje Logo" />
+        <p className="text-white text-xs mt-8">
+          Please{" "}
+          <a
+            className="underline"
+            href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=2756934506.1603903113093&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
+          >
+            install the app
+          </a>{" "}
+          to continue.
+        </p>
+      </main>
+    )
   } else {
     return (
       <ErrorComponent

@@ -26,6 +26,7 @@ export default async function slack(req: NextApiRequest, res: NextApiResponse) {
 
   const email = profileResponse.profile.email
   const name = profileResponse.profile.displayName
+  const isInstalled = true
 
   await db.user.upsert({
     where: { email },
@@ -34,9 +35,10 @@ export default async function slack(req: NextApiRequest, res: NextApiResponse) {
       name,
       slackUserId,
       slackAccessToken,
+      isInstalled,
     },
-    update: { email, slackAccessToken },
+    update: { email, slackAccessToken, isInstalled },
   })
 
-  res.redirect(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/?installSuccess=1`)
+  res.redirect(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/`)
 }
