@@ -13,7 +13,7 @@ const ShowMessage: BlitzPage = () => {
   const [message] = useQuery(getMessage, { where: { id } })
 
   return (
-    <div className="max-w-3xl m-auto mt-9">
+    <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
       <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
       <div className="text-xss mb-4">
