@@ -22,13 +22,9 @@ It also provides some basic reaction features so you can ACK a message from Mens
 
 ![Architecture](./Architecture.png)
 
-Mensaje is a simple Blitzjs app that connects to a PostgreSQL database hosted in Digital Ocean.
+Mensaje is a simple Blitzjs app that connects to a PostgreSQL database hosted in Digital Ocean. It also uses [Quirrel](https://quirrel.dev), a Job Queueing software that's specifically made for serverless environments. Finally, it uses the Slack API for authenticating and impersonating users in Slack. This allows Mensaje to publish messages as real users.
 
-It also uses [Quirrel](https://quirrel.dev), a Job Queueing software that specifically made for serverless environments.
-
-Finally, it uses the Slack API for authenticating and impersonating users in Slack. This allows Mensaje to publish messages as real users.
-
-All this runs on a Vercel serverless deployment.
+All this runs on a Vercel serverless deployment infrastructure.
 
 ## Installation
 
@@ -50,7 +46,7 @@ SLACK_TOKEN=
 NEXT_PUBLIC_WEBSITE_URL=http://localhost:3000
 ```
 
-All slack tokens and secrets you can get them after the app developer has granted you access to the Slack app.
+All slack tokens and secrets you can get them from Slack upon app creation. If the app is already created for your team please ask the creator to add you as a collaborator.
 
 ```bash
 $ yarn blitz db migrate
