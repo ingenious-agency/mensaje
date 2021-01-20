@@ -24,6 +24,7 @@ async function isMember(userId, channelId) {
   const web = new WebClient(user?.slackAccessToken)
   const result = (await web.users.conversations({
     user: user?.slackUserId,
+    types: "public_channel,private_channel",
   })) as WebAPICallResult & { channels: Channel[] }
 
   return !!result.channels.find((channel) => channel.id === channelId)
