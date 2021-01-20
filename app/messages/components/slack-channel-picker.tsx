@@ -3,7 +3,7 @@ import LabeledSelect from "app/components/LabeledSelect"
 import { useQuery } from "blitz"
 
 export default function SlackChannelPicker({ name, label }: { name: string; label: string }) {
-  const [channels] = useQuery(getChannels, {})
+  const [channels] = useQuery(getChannels, {}, { staleTime: Infinity })
   return (
     <LabeledSelect
       name={name}

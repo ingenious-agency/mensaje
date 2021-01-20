@@ -9,7 +9,11 @@ import getMessage from "app/messages/queries/getMessage"
 const EditMessage: BlitzPage = () => {
   const router = useRouter()
   const id = useParam("id", "string")
-  const [message, { setQueryData }] = useQuery(getMessage, { where: { id } })
+  const [message, { setQueryData }] = useQuery(
+    getMessage,
+    { where: { id } },
+    { staleTime: Infinity }
+  )
   const [updateMessageMutation, { isLoading }] = useMutation(updateMessage)
   return (
     <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
