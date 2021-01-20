@@ -1,26 +1,51 @@
-import { BlitzPage, Link, useParam, useQuery, useSession } from "blitz"
+import { BlitzPage, Link, useMutation, useParam, useQuery, useSession } from "blitz"
 import Markdown from "markdown-to-jsx"
 import getMessage from "app/messages/queries/getMessage"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import SlackChannel, { SlackChannelFallback } from "app/messages/components/slack-channel"
 import Reactions from "app/messages/components/reactions"
 import BottomBar from "app/components/bottom-bar"
 import LinkButton from "app/components/LinkButton"
+import createMessageView from "app/messageViews/mutations/createMessageView"
+import AvatarList from "app/components/avatar-list"
 
 const ShowMessage: BlitzPage = () => {
   const id = useParam("id", "string")
   const session = useSession()
-  const [message] = useQuery(getMessage, { where: { id } })
+  const [message, { refetch }] = useQuery(getMessage, { where: { id } })
+  const [createMessageViewMutation] = useMutation(createMessageView)
+
+  useEffect(() => {
+    async function logView() {
+      if (!(id && session.userId)) return
+      await createMessageViewMutation({ messageId: id })
+      refetch()
+    }
+    logView()
+  }, [id, session.userId, refetch, createMessageViewMutation])
 
   return (
     <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
       <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
-      <div className="text-xss mb-4">
-        {message.user?.name} on{" "}
+      <div className="text-xss mb-4 flex items-center">
+        <span>{message.user?.name} on </span>
         <Suspense fallback={<SlackChannelFallback />}>
           <SlackChannel channelId={message.slackChannelId} />
         </Suspense>
+        <AvatarList
+          className="ml-4"
+          list={message.views.map((view) => {
+            const initials = view.user?.name
+              ? `${view.user.name?.split(" ")[0][0]}${view.user.name?.split(" ")[1][0]}`
+              : view.user.email.substr(0, 2)
+            return {
+              name: view.user.name as string,
+              initials,
+              pictureUrl: view.user.avatarUrl ?? undefined,
+            }
+          })}
+        />
       </div>
 
       <h1 className="text-4xl font-medium mb-6">{message.title}</h1>

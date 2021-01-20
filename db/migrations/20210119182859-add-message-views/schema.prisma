@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -22,7 +22,6 @@ model User {
   slackUserId       String
   slackAccessToken  String     @default("")
   isInstalled       Boolean    @default(false)
-  avatarUrl         String?
   sessions          Session[]
   messages          Message[]
   reactions         Reaction[]
