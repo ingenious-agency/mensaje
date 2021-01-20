@@ -29,7 +29,7 @@ const ShowMessage: BlitzPage = () => {
       <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
       <div className="text-xss mb-4 flex items-center">
-        <span>{message.user?.name} on </span>
+        <span className="mr-1">{message.user?.name} on </span>
         <Suspense fallback={<SlackChannelFallback />}>
           <SlackChannel channelId={message.slackChannelId} />
         </Suspense>
