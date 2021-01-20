@@ -22,31 +22,34 @@ export default function AvatarList({ className = "", list, ...rest }: AvatarList
   return (
     <div className={`${className}`} {...rest}>
       <div className="flex">
-        {avatars.map((avatar, index) => {
-          return (
-            <div
-              key={index}
-              title={avatar.name}
-              className={`h-6 w-6 text-xss rounded-full flex items-center justify-center text-white cursor-default -ml-2 first:ml-0 border border-white bg-gradient-to-t from-avatars-${getColor(
-                avatar.initials
-              )}-start to-avatars-${getColor(avatar.initials)}-end`}
-            >
-              {avatar.pictureUrl ? (
-                <img
-                  src={avatar.pictureUrl}
-                  className="h-6 w-6 bg-contain inline rounded-full"
-                  alt={avatar.name}
-                />
-              ) : (
-                avatar.initials
-              )}
-            </div>
-          )
+        {avatars.map((avatar) => {
+          if (avatar.pictureUrl) {
+            return (
+              <img
+                key={avatar.name}
+                src={avatar.pictureUrl}
+                className="h-7 w-7 bg-contain inline rounded-full -ml-2 first:ml-0 border-2 border-white"
+                alt={avatar.name}
+              />
+            )
+          } else {
+            return (
+              <div
+                key={avatar.name}
+                title={avatar.name}
+                className={`h-7 w-7 text-xss rounded-full flex items-center justify-center cursor-default -ml-2 first:ml-0 bg-gradient-to-t border-2 border-white text-white from-avatars-${getColor(
+                  avatar.initials
+                )}-start to-avatars-${getColor(avatar.initials)}-end`}
+              >
+                {avatar.initials}
+              </div>
+            )
+          }
         })}
         {remaining && remaining.length > 0 && (
           <div
             title={remaining.map((avatar) => avatar.name).join(", ")}
-            className={`h-6 w-6 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 bg-gray-350`}
+            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 border-2 border-white bg-gray-350`}
           >
             +{remaining.length}
           </div>
