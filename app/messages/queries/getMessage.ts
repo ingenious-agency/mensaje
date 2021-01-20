@@ -7,7 +7,10 @@ type GetMessageInput = Pick<Prisma.FindFirstMessageArgs, "where" | "include">
 
 export default async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   ctx.session.authorize()
-  const message = await db.message.findFirst({ where, include: { user: true } })
+  const message = await db.message.findFirst({
+    where,
+    include: { user: true, views: { include: { user: true } } },
+  })
   if (!message) throw new NotFoundError()
 
   const member = await isMember(ctx.session.userId, message?.slackChannelId)

@@ -10,3 +10,5 @@
 20210104141720-add-timestamp-to-message
 20210105214100-add-slack-access-token
 20210118133622-add-installation-info-to-user
+20210119182859-add-message-views
+20210119191555-add-avatar-url-to-users

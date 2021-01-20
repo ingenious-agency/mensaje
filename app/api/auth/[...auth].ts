@@ -20,6 +20,7 @@ export default passportAuth({
         },
         async (accessToken, _refreshToken, profile, done) => {
           const email = profile.user.email
+          const avatarUrl = profile.user.image_192
           const user = await db.user.upsert({
             where: { email },
             create: {
@@ -27,8 +28,9 @@ export default passportAuth({
               name: profile.displayName,
               slackUserId: profile.id,
               slackAccessToken: accessToken,
+              avatarUrl,
             },
-            update: { email, slackAccessToken: accessToken },
+            update: { email, slackAccessToken: accessToken, avatarUrl },
           })
           const publicData = { userId: user.id, roles: [user.role], source: "slack" }
           done(null, { publicData })
