@@ -1,2 +1,2 @@
-import { getAbility } from "../index"
-export default getAbility
+// import { getAbility } from "../index"
+// export default getAbility
