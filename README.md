@@ -64,4 +64,4 @@ $ yarn quirrel
 
 ## Deployment
 
-Pushing to `main` triggers a prod deploy while pushing to any other branch triggers a preview deployment. Beware that production and preview database are the same one.
+Pushing to `main` triggers a prod deploy while pushing to any other branch doesn't trigger any preview deployment.
