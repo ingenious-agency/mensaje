@@ -1,4 +1,11 @@
-import { AppProps, ErrorComponent, useRouter, AuthenticationError, AuthorizationError } from "blitz"
+import {
+  AppProps,
+  ErrorComponent,
+  useRouter,
+  AuthenticationError,
+  AuthorizationError,
+  useRouterQuery,
+} from "blitz"
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
 import Layout from "app/layouts/Layout"
@@ -28,6 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   const router = useRouter()
+  const queryString = useRouterQuery()
   useEffect(() => {
     if (error && (error as any)?.code === "slack_webapi_platform_error") {
       localStorage.setItem("backTo", router.asPath)
@@ -67,6 +75,15 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             install the app
           </a>{" "}
           to continue.
+        </p>
+      </main>
+    )
+  } else if ((error as any)?.statusCode === 401) {
+    return (
+      <main className="flex flex-col justify-center items-center h-screen bg-black">
+        <img src="/logo.svg" alt="Mensaje Logo" />
+        <p className="text-white text-xs mt-8">
+          {queryString?.authError ?? "You are not authorized to access this page"}
         </p>
       </main>
     )

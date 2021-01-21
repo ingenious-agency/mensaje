@@ -43,10 +43,13 @@ DATABASE_URL=postgresql://user@localhost:5432/mensaje
 SLACK_CLIENT_ID=
 SLACK_CLIENT_SECRET=
 SLACK_TOKEN=
+SLACK_TEAM_ID=
 NEXT_PUBLIC_WEBSITE_URL=http://localhost:3000
 ```
 
 All slack tokens and secrets you can get them from Slack upon app creation. If the app is already created for your team please ask the creator to add you as a collaborator.
+
+The easiest way to get your `SLACK_TEAM_ID` is following what's described in [this Stack Overflow answer](https://stackoverflow.com/a/57246565).
 
 ```bash
 $ yarn blitz db migrate

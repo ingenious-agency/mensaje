@@ -21,6 +21,10 @@ export default passportAuth({
         async (accessToken, _refreshToken, profile, done) => {
           const email = profile.user.email
           const avatarUrl = profile.user.image_192
+
+          if (profile.team.id !== process.env.SLACK_TEAM_ID)
+            done(new Error("This app is not configured for the requested workspace"))
+
           const user = await db.user.upsert({
             where: { email },
             create: {

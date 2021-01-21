@@ -10,9 +10,19 @@ export default async function slack(req: NextApiRequest, res: NextApiResponse) {
     client_id: process.env.SLACK_CLIENT_ID as string,
     client_secret: process.env.SLACK_CLIENT_SECRET as string,
     redirect_uri: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install`,
-  })) as WebAPICallResult & { authed_user: { id: string; access_token: string } }
+  })) as WebAPICallResult & { authed_user: { id: string; access_token: string } } & {
+    team: { id: string }
+  }
 
-  if (!accessResponse.ok) res.json(accessResponse)
+  if (!accessResponse.ok) {
+    res.json(accessResponse)
+    res.end()
+  }
+
+  if (accessResponse.team.id !== process.env.SLACK_TEAM_ID) {
+    res.send("This app is not configured for the requested workspace")
+    res.end()
+  }
 
   const slackAccessToken = accessResponse.authed_user.access_token
   const slackUserId = accessResponse.authed_user.id
@@ -22,7 +32,10 @@ export default async function slack(req: NextApiRequest, res: NextApiResponse) {
     user: slackUserId,
   })) as WebAPICallResult & { profile: { email: string; displayName: string } }
 
-  if (!profileResponse.ok) res.json(profileResponse)
+  if (!profileResponse.ok) {
+    res.json(profileResponse)
+    res.end()
+  }
 
   const email = profileResponse.profile.email
   const name = profileResponse.profile.displayName
