@@ -55,13 +55,26 @@ export default CronJob(
       const users = await db.user.findMany()
 
       for (let user of users) {
+        // Gets the already seen messages
         const viewed = await db.messageView.findMany({
           where: { userId: user.id },
           select: { messageId: true },
         })
         const viewedIds = viewed.map((v) => v.messageId)
+
+        // Gets user's channels
+        const channelsResponse = (await web.users.conversations({
+          token: user.slackAccessToken,
+          types: "public_channel,private_channel",
+          user: user.slackUserId,
+        })) as WebAPICallResult & { channels: { id: string }[] }
+
+        if (!channelsResponse.ok) continue
+
+        const channelIds = channelsResponse.channels.map((channel) => channel.id)
+
         const missing = await db.message.findMany({
-          where: { id: { notIn: viewedIds } },
+          where: { id: { notIn: viewedIds }, slackChannelId: { in: channelIds } },
           select: { title: true, body: true, id: true },
         })
 
