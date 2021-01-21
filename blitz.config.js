@@ -1,7 +1,16 @@
 const { sessionMiddleware, unstable_simpleRolesIsAuthorized } = require("@blitzjs/server")
+const { BlitzGuardMiddleware } = require("blitz-guard/dist/middleware.js")
 
 module.exports = {
   middleware: [
+    BlitzGuardMiddleware({
+      excluded: [
+        "/api/auth/slack",
+        "/api/auth/slack/callback",
+        "/api/slack/install",
+        "/api/auth/mutations/logout",
+      ],
+    }),
     sessionMiddleware({
       unstable_isAuthorized: unstable_simpleRolesIsAuthorized,
     }),

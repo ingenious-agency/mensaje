@@ -1,9 +1,10 @@
+import { authorize } from "app/guard"
 import { Ctx, NotFoundError } from "blitz"
 import db, { Prisma } from "db"
 
 type GetReactionInput = Pick<Prisma.FindFirstReactionArgs, "where">
 
-export default async function getReaction({ where }: GetReactionInput, ctx: Ctx) {
+async function getReaction({ where }: GetReactionInput, ctx: Ctx) {
   ctx.session.authorize()
 
   const reaction = await db.reaction.findFirst({ where })
@@ -12,3 +13,5 @@ export default async function getReaction({ where }: GetReactionInput, ctx: Ctx)
 
   return reaction
 }
+
+export default authorize("read", "reaction", getReaction)

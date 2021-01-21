@@ -1,12 +1,13 @@
 import { Ctx } from "blitz"
 import AddQueue from "app/api/reactions/add"
-import db, { Prisma, User } from "db"
+import db, { Prisma } from "db"
+import { authorize } from "app/guard"
 
-type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
+export type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
 
-export default async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
+async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   ctx.session.authorize()
-  const user = (await db.user.findUnique({ where: { id: ctx.session.userId } })) as User
+  const user = await db.user.findUnique({ where: { id: ctx.session.userId } })
 
   const existingReaction = await db.reaction.findFirst({
     where: {
@@ -27,9 +28,11 @@ export default async function createReaction({ data }: CreateReactionInput, ctx:
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,
       name: data.alt,
-      userToken: user.slackAccessToken,
+      userToken: user?.slackAccessToken as string,
     })
   }
 
   return reaction
 }
+
+export default authorize("create", "reaction", createReaction)

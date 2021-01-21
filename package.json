@@ -37,6 +37,7 @@
     "@quirrel/next": "0.10.0",
     "@slack/web-api": "5.14.0",
     "blitz": "0.27.1",
+    "blitz-guard": "link:../blitz-guard/packages/core",
     "lodash": "4.17.20",
     "markdown-to-jsx": "7.1.1",
     "passport-slack": "0.0.7",
