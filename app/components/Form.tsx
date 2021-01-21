@@ -88,9 +88,6 @@ export function Form<S extends z.ZodType<any, any>>({
             </BottomBar>
           </form>
           <style jsx global>{`
-            body {
-              margin-bottom: 5rem;
-            }
             .loader {
               left: calc(50% - 88px);
               top: calc(50% - 88px);

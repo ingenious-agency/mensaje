@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { BlitzPage, Link, useMutation, useParam, useQuery, useSession } from "blitz"
 import Markdown from "markdown-to-jsx"
 import getMessage from "app/messages/queries/getMessage"
@@ -8,11 +9,13 @@ import BottomBar from "app/components/bottom-bar"
 import LinkButton from "app/components/LinkButton"
 import createMessageView from "app/messageViews/mutations/createMessageView"
 import AvatarList from "app/components/avatar-list"
+import UserSider from "app/messages/components/user-sider"
 
 const ShowMessage: BlitzPage = () => {
   const id = useParam("id", "string")
   const session = useSession()
   const [message, { refetch }] = useQuery(getMessage, { where: { id } })
+  const [showUserSlider, setShowUserSlider] = useState(false)
   const [createMessageViewMutation] = useMutation(createMessageView)
 
   useEffect(() => {
@@ -25,7 +28,11 @@ const ShowMessage: BlitzPage = () => {
   }, [id, session.userId, refetch, createMessageViewMutation])
 
   return (
-    <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
+    <div
+      className={`${
+        showUserSlider ? "lg:max-w-2xl" : "lg:max-w-3xl"
+      } lg:m-auto lg:pt-9 pb-20 m-8 min-h-screen`}
+    >
       <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
       <div className="text-xss mb-4 flex items-center">
@@ -45,6 +52,7 @@ const ShowMessage: BlitzPage = () => {
               pictureUrl: view.user.avatarUrl ?? undefined,
             }
           })}
+          toggleUserSlider={() => setShowUserSlider(!showUserSlider)}
         />
       </div>
 
@@ -86,7 +94,8 @@ const ShowMessage: BlitzPage = () => {
       >
         {message.body}
       </Markdown>
-      <BottomBar>
+      {showUserSlider && <UserSider toggleUserSlider={() => setShowUserSlider(!showUserSlider)} />}
+      <BottomBar isSliderOpen={showUserSlider}>
         <div>
           <Suspense fallback="Loading reactions">
             <Reactions messageId={message.id} userId={session.userId} />

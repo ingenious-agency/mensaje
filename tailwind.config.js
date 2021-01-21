@@ -73,6 +73,7 @@ module.exports = {
   variants: {
     extend: {
       margin: ["first"],
+      padding: ["first"],
     },
   },
   plugins: [],

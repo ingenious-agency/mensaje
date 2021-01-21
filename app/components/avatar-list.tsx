@@ -2,9 +2,10 @@ import { take, slice } from "lodash"
 
 export type AvatarListProps = {
   list?: { name: string; initials: string; pictureUrl?: string }[]
+  toggleUserSlider: Function
 } & JSX.IntrinsicElements["div"]
 
-function getColor(string: string) {
+export function getColor(string: string) {
   const code = string.charCodeAt(0)
   if (code <= 57) return "red"
   if (code <= 69) return "orange"
@@ -14,7 +15,12 @@ function getColor(string: string) {
   if (code <= 90) return "purple"
 }
 
-export default function AvatarList({ className = "", list, ...rest }: AvatarListProps) {
+export default function AvatarList({
+  className = "",
+  list,
+  toggleUserSlider = () => {},
+  ...rest
+}: AvatarListProps) {
   if (!list) return null
 
   const avatars = take(list, 5)
@@ -48,13 +54,14 @@ export default function AvatarList({ className = "", list, ...rest }: AvatarList
         })}
         {remaining && remaining.length > 0 && (
           <div
+            aria-hidden="true"
+            onClick={() => toggleUserSlider(remaining)}
             title={remaining.map((avatar) => avatar.name).join(", ")}
-            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 border-2 border-white bg-gray-350`}
+            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
           >
             +{remaining.length}
           </div>
         )}
-        {}
       </div>
     </div>
   )

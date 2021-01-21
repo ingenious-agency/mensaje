@@ -16,7 +16,7 @@ const NewMessage: BlitzPage = () => {
   const [createMessageMutation, { isLoading }] = useMutation(createMessage)
 
   return (
-    <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
+    <div className="lg:max-w-3xl lg:m-auto lg:pt-9 m-8">
       <img src="/logo-white.svg" alt="Mensaje Logo" />
       <Form
         isLoading={isLoading}
