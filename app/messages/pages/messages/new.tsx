@@ -1,11 +1,11 @@
 import Form, { FORM_ERROR } from "app/components/Form"
 import LabeledTextField from "app/components/LabeledTextField"
-import LabeledTextArea from "app/components/LabeledTextArea"
 import createMessage from "app/messages/mutations/createMessage"
 import { CreateMessageInput } from "app/messages/validations"
 import { BlitzPage, useMutation, useRouter, useRouterQuery } from "blitz"
 import { Suspense } from "react"
 import SlackChannelPicker from "app/messages/components/slack-channel-picker"
+import LabeledMarkDownField from "app/components/labeled-markdown"
 
 const NewMessage: BlitzPage = () => {
   const router = useRouter()
@@ -40,7 +40,7 @@ const NewMessage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="title" label="Title" placeholder="Title" />
-        <LabeledTextArea name="body" label="Body" placeholder="Body" />
+        <LabeledMarkDownField name="body" label="Body" placeholder="Body" />
       </Form>
     </div>
   )
