@@ -17,7 +17,7 @@ const NewMessage: BlitzPage = () => {
 
   return (
     <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
-      <img src="/logo-white.svg" alt="Mensaje Logo" />
+      <img className="w-44 h-44" src="/logo-white.svg" alt="Mensaje Logo" />
       <Form
         isLoading={isLoading}
         submitText="Create Message"
