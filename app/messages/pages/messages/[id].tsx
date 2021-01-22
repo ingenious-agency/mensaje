@@ -97,7 +97,7 @@ const ShowMessage: BlitzPage = () => {
         {message.body}
       </Markdown>
       {isSiderOpen && <UserSider list={list} handleOnClick={() => setIsSiderOpen(!isSiderOpen)} />}
-      <BottomBar isSliderOpen={isSiderOpen}>
+      <BottomBar isSiderOpen={isSiderOpen}>
         <div>
           <Suspense fallback="Loading reactions">
             <Reactions messageId={message.id} userId={session.userId} />
