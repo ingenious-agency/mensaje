@@ -7,8 +7,7 @@ export type AvatarListProps = {
 
 export type AvatarProps = {
   avatar: AvatarType
-  displayName?: Boolean
-  big?: Boolean
+  size?: "small" | "big"
 } & JSX.IntrinsicElements["div"]
 
 export type AvatarType = {
@@ -27,14 +26,16 @@ export function getColor(string: string) {
   if (code <= 90) return "purple"
 }
 
-export function Avatar({ avatar: { name, pictureUrl, initials }, big = false }: AvatarProps) {
+export function Avatar({ avatar: { name, pictureUrl, initials }, size = "small" }: AvatarProps) {
   return (
     <>
       {pictureUrl ? (
         <img
           key={name}
           src={pictureUrl}
-          className={`${big ? "h-9 w-9" : "h-7 w-7"} bg-contain inline rounded-full first:ml-0`}
+          className={`${
+            size === "big" ? "h-9 w-9" : "h-7 w-7"
+          } bg-contain inline rounded-full first:ml-0 -ml-2`}
           alt={name}
         />
       ) : (
@@ -42,8 +43,8 @@ export function Avatar({ avatar: { name, pictureUrl, initials }, big = false }: 
           key={name}
           title={name}
           className={`${
-            big ? "h-9 w-9" : "h-7 w-7"
-          } text-xss rounded-full flex items-center justify-center cursor-default -ml-2 first:ml-0 bg-gradient-to-t text-white from-avatars-${getColor(
+            size === "big" ? "h-9 w-9" : "h-7 w-7"
+          } text-xss rounded-full flex items-center justify-center cursor-default first:ml-0 -ml-2 bg-gradient-to-t text-white from-avatars-${getColor(
             initials
           )}-start to-avatars-${getColor(initials)}-end`}
         >
@@ -68,7 +69,7 @@ export default function AvatarList({
     <div className={`${className}`} {...rest}>
       <div className="flex">
         {avatars.map((avatar: AvatarType) => {
-          return <Avatar avatar={avatar} />
+          return <Avatar key={avatar.name} avatar={avatar} />
         })}
         {remaining && remaining.length > 0 && (
           <div

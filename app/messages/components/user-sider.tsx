@@ -6,8 +6,8 @@ function UserList({ users }) {
   return (
     <div>
       {users?.map((avatar: AvatarType, i) => (
-        <div className="flex items-center first:pt-0 pt-8">
-          <Avatar className="" key={i} avatar={avatar} big></Avatar>
+        <div key={i} className="flex items-center first:pt-0 pt-8">
+          <Avatar className="" avatar={avatar} size="big"></Avatar>
           <span className="pl-3" style={{ color: "#999999" }}>
             {avatar.name}
           </span>
