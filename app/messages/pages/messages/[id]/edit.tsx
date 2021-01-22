@@ -5,6 +5,7 @@ import { UpdateMessageInput } from "app/messages/validations"
 import { BlitzPage, useMutation, useParam, useQuery, useRouter } from "blitz"
 import updateMessage from "app/messages/mutations/updateMessage"
 import getMessage from "app/messages/queries/getMessage"
+import LabeledMarkDownField from "app/components/labeled-markdown"
 
 const EditMessage: BlitzPage = () => {
   const router = useRouter()
@@ -30,7 +31,7 @@ const EditMessage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="title" label="Title" placeholder="Title" />
-        <LabeledTextArea name="body" label="Body" placeholder="Body" />
+        <LabeledMarkDownField name="body" label="Body" placeholder="Body" />
       </Form>
     </div>
   )
