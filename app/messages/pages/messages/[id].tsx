@@ -1,5 +1,4 @@
 import { BlitzPage, Link, useMutation, useParam, useQuery, useSession } from "blitz"
-import Markdown from "markdown-to-jsx"
 import getMessage from "app/messages/queries/getMessage"
 import { Suspense, useEffect } from "react"
 import SlackChannel, { SlackChannelFallback } from "app/messages/components/slack-channel"
@@ -8,6 +7,7 @@ import BottomBar from "app/components/bottom-bar"
 import LinkButton from "app/components/LinkButton"
 import createMessageView from "app/messageViews/mutations/createMessageView"
 import AvatarList from "app/components/avatar-list"
+import Markdown from "app/components/markdown"
 
 const ShowMessage: BlitzPage = () => {
   const id = useParam("id", "string")
@@ -49,43 +49,7 @@ const ShowMessage: BlitzPage = () => {
       </div>
 
       <h1 className="text-4xl font-medium mb-6">{message.title}</h1>
-      <Markdown
-        options={{
-          forceWrapper: true,
-          overrides: {
-            a: {
-              props: {
-                className: "leading-relaxed text-blue-default hover:underline",
-              },
-            },
-            p: {
-              props: {
-                className: "text-light mb-4",
-              },
-            },
-            h1: {
-              props: {
-                className: "text-base font-medium mb-2 mt-8",
-              },
-            },
-            li: {
-              props: {
-                className: "list-disc list-inside",
-              },
-            },
-            code: {
-              props: {
-                className: "font-mono px-1 text-sm",
-                style: {
-                  color: "#FF7E32",
-                },
-              },
-            },
-          },
-        }}
-      >
-        {message.body}
-      </Markdown>
+      <Markdown>{message.body}</Markdown>
       <BottomBar>
         <div>
           <Suspense fallback="Loading reactions">
