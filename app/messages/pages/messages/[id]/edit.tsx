@@ -1,6 +1,5 @@
 import Form, { FORM_ERROR } from "app/components/Form"
 import LabeledTextField from "app/components/LabeledTextField"
-import LabeledTextArea from "app/components/LabeledTextArea"
 import { UpdateMessageInput } from "app/messages/validations"
 import { BlitzPage, useMutation, useParam, useQuery, useRouter } from "blitz"
 import updateMessage from "app/messages/mutations/updateMessage"
