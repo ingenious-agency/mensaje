@@ -19,7 +19,7 @@ const Home: BlitzPage = () => {
       >
         <LoginButton />
       </Suspense>
-      <img src="/logo.svg" alt="Mensaje Logo" />
+      <img className="w-44 h-44" src="/logo.svg" alt="Mensaje Logo" />
       <Suspense
         fallback={<p className="text-white text-xs mt-8">Loading your welcome message...</p>}
       >

@@ -45,7 +45,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   if (error instanceof AuthenticationError) {
     return (
       <main className="flex flex-col justify-center items-center h-screen bg-black">
-        <img src="/logo.svg" alt="Mensaje Logo" />
+        <img className="w-44 h-44" src="/logo.svg" alt="Mensaje Logo" />
         <p className="text-white text-xs mt-8">
           Please{" "}
           <a className="underline" href={`/api/auth/slack?redirectUrl=${router.asPath}`}>
@@ -65,7 +65,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   } else if ((error as any)?.code === "slack_webapi_platform_error") {
     return (
       <main className="flex flex-col justify-center items-center h-screen bg-black">
-        <img src="/logo.svg" alt="Mensaje Logo" />
+        <img className="w-44 h-44" src="/logo.svg" alt="Mensaje Logo" />
         <p className="text-white text-xs mt-8">
           Please{" "}
           <a
@@ -81,7 +81,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   } else if ((error as any)?.statusCode === 401) {
     return (
       <main className="flex flex-col justify-center items-center h-screen bg-black">
-        <img src="/logo.svg" alt="Mensaje Logo" />
+        <img className="w-44 h-44" src="/logo.svg" alt="Mensaje Logo" />
         <p className="text-white text-xs mt-8">
           {queryString?.authError ?? "You are not authorized to access this page"}
         </p>
