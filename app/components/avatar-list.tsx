@@ -1,9 +1,21 @@
 import { take, slice } from "lodash"
 
 export type AvatarListProps = {
-  list?: { name: string; initials: string; pictureUrl?: string }[]
-  toggleUserSlider: Function
+  list?: AvatarType[]
+  handleOnClick: () => void
 } & JSX.IntrinsicElements["div"]
+
+export type AvatarProps = {
+  avatar: AvatarType
+  displayName?: Boolean
+  big?: Boolean
+} & JSX.IntrinsicElements["div"]
+
+export type AvatarType = {
+  name: string
+  initials: string
+  pictureUrl?: string
+}
 
 export function getColor(string: string) {
   const code = string.charCodeAt(0)
@@ -15,10 +27,37 @@ export function getColor(string: string) {
   if (code <= 90) return "purple"
 }
 
+export function Avatar({ avatar: { name, pictureUrl, initials }, big = false }: AvatarProps) {
+  return (
+    <>
+      {pictureUrl ? (
+        <img
+          key={name}
+          src={pictureUrl}
+          className={`${big ? "h-9 w-9" : "h-7 w-7"} bg-contain inline rounded-full first:ml-0`}
+          alt={name}
+        />
+      ) : (
+        <div
+          key={name}
+          title={name}
+          className={`${
+            big ? "h-9 w-9" : "h-7 w-7"
+          } text-xss rounded-full flex items-center justify-center cursor-default -ml-2 first:ml-0 bg-gradient-to-t text-white from-avatars-${getColor(
+            initials
+          )}-start to-avatars-${getColor(initials)}-end`}
+        >
+          {initials}
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function AvatarList({
   className = "",
   list,
-  toggleUserSlider = () => {},
+  handleOnClick = () => {},
   ...rest
 }: AvatarListProps) {
   if (!list) return null
@@ -28,36 +67,15 @@ export default function AvatarList({
   return (
     <div className={`${className}`} {...rest}>
       <div className="flex">
-        {avatars.map((avatar) => {
-          if (avatar.pictureUrl) {
-            return (
-              <img
-                key={avatar.name}
-                src={avatar.pictureUrl}
-                className="h-7 w-7 bg-contain inline rounded-full -ml-2 first:ml-0 border-2 border-white"
-                alt={avatar.name}
-              />
-            )
-          } else {
-            return (
-              <div
-                key={avatar.name}
-                title={avatar.name}
-                className={`h-7 w-7 text-xss rounded-full flex items-center justify-center cursor-default -ml-2 first:ml-0 bg-gradient-to-t border-2 border-white text-white from-avatars-${getColor(
-                  avatar.initials
-                )}-start to-avatars-${getColor(avatar.initials)}-end`}
-              >
-                {avatar.initials}
-              </div>
-            )
-          }
+        {avatars.map((avatar: AvatarType) => {
+          return <Avatar avatar={avatar} />
         })}
         {remaining && remaining.length > 0 && (
           <div
             aria-hidden="true"
-            onClick={() => toggleUserSlider(remaining)}
+            onClick={() => handleOnClick()}
             title={remaining.map((avatar) => avatar.name).join(", ")}
-            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
+            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
           >
             +{remaining.length}
           </div>
