@@ -12,7 +12,7 @@ import Markdown from "app/components/markdown"
 const ShowMessage: BlitzPage = () => {
   const id = useParam("id", "string")
   const session = useSession()
-  const [message, { refetch }] = useQuery(getMessage, { where: { id } })
+  const [message, { refetch }] = useQuery(getMessage, { where: { id } }, { staleTime: Infinity })
   const [createMessageViewMutation] = useMutation(createMessageView)
 
   useEffect(() => {
