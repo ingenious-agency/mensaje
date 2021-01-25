@@ -15,7 +15,7 @@ async function createMessage({ data }: CreateMessageInputType, ctx: Ctx) {
     include: { user: true },
   })
 
-  if (message.user?.slackAccessToken && message.slackChannelId) {
+  if (message.user?.slackAccessToken && message.slackChannelId && process.env.NODE_ENV !== "test") {
     await CreateQueue.enqueue({
       userToken: message.user?.slackAccessToken,
       channel: message.slackChannelId,

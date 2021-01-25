@@ -10,7 +10,7 @@ export const CreateMessageInput = z.object({
 export type CreateMessageInputType = z.infer<typeof CreateMessageInput>
 
 export const UpdateMessageInput = z.object({
-  title: z.string().min(5),
-  body: z.string().min(200),
+  title: z.string().min(5).optional(),
+  body: z.string().min(200).optional(),
 })
 export type UpdateMessageInputType = z.infer<typeof UpdateMessageInput>

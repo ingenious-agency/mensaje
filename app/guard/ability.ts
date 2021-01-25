@@ -1,6 +1,6 @@
 import { Ctx, NotFoundError } from "blitz"
 import db from "db"
-import { IGuard } from "blitz-guard"
+import { IGuard } from "@blitz-guard/core"
 import getUserChannels from "app/channels/lib/getUserChannels"
 import { UpdateMessageInputType } from "app/messages/mutations/updateMessage"
 import { DeleteMessageInput } from "app/messages/mutations/deleteMessage"

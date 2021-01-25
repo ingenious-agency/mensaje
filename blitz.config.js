@@ -1,5 +1,5 @@
 const { sessionMiddleware, unstable_simpleRolesIsAuthorized } = require("@blitzjs/server")
-const { BlitzGuardMiddleware } = require("blitz-guard/dist/middleware.js")
+const { BlitzGuardMiddleware } = require("@blitz-guard/core/dist/middleware.js")
 
 module.exports = {
   middleware: [

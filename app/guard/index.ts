@@ -1,4 +1,4 @@
-import { GuardInit, authorizeInit /*, useGuardInit*/ } from "blitz-guard"
+import { GuardInit, authorizeInit /*, useGuardInit*/ } from "@blitz-guard/core"
 import db from "db"
 import ability from "app/guard/ability"
 // import getAbilityInit from "app/guard/queries/getAbility"
