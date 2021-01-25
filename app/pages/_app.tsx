@@ -9,12 +9,12 @@ import {
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import { queryCache } from "react-query"
 import Layout from "app/layouts/Layout"
-import withSiteLayout from "utils/hocs/with-site-layout"
 
 import "app/styles/index.css"
 import { useEffect } from "react"
+import { SiderProvider } from "utils/contexts/sider-context"
 
-function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   return (
@@ -28,7 +28,9 @@ function App({ Component, pageProps }: AppProps) {
       }}
     >
       <Layout>
-        <Component {...pageProps} />
+        <SiderProvider>
+          <Component {...pageProps} />
+        </SiderProvider>
       </Layout>
     </ErrorBoundary>
   )
@@ -97,5 +99,3 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
     )
   }
 }
-
-export default withSiteLayout(App)

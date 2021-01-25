@@ -16,7 +16,7 @@ const ShowMessage: BlitzPage = () => {
   const session = useSession()
   const [message, { refetch }] = useQuery(getMessage, { where: { id } })
   const [createMessageViewMutation] = useMutation(createMessageView)
-  const { isSiderOpen, setIsSiderOpen } = useSiderContext()
+  const { isSiderOpen } = useSiderContext()
 
   useEffect(() => {
     async function logView() {
@@ -39,40 +39,38 @@ const ShowMessage: BlitzPage = () => {
   })
 
   return (
-    <div
-      className={`${
-        isSiderOpen ? "lg:max-w-2xl" : "lg:max-w-3xl"
-      } lg:m-auto lg:pt-9 pb-20 m-8 min-h-screen`}
-    >
-      <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
+    <div className={`${!isSiderOpen ? "w-full" : "w-3/4"} transition-all duration-500`}>
+      <div
+        className={`${
+          isSiderOpen ? "lg:max-w-2xl" : "lg:max-w-3xl"
+        } lg:m-auto lg:pt-9 pb-20 m-8 min-h-screen transition-all duration-500`}
+      >
+        <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
-      <div className="text-xss mb-4 flex items-center">
-        <span className="mr-1">{message.user?.name} on </span>
-        <Suspense fallback={<SlackChannelFallback />}>
-          <SlackChannel channelId={message.slackChannelId} />
-        </Suspense>
-        <AvatarList
-          className="ml-4"
-          list={list}
-          handleOnClick={() => setIsSiderOpen(!isSiderOpen)}
-        />
-      </div>
-
-      <h1 className="text-4xl font-medium mb-6">{message.title}</h1>
-      <Markdown>{message.body}</Markdown>
-      {isSiderOpen && <UserSider list={list} handleOnClick={() => setIsSiderOpen(!isSiderOpen)} />}
-      <BottomBar isSiderOpen={isSiderOpen}>
-        <div>
-          <Suspense fallback="Loading reactions">
-            <Reactions messageId={message.id} userId={session.userId} />
+        <div className="text-xss mb-4 flex items-center">
+          <span className="mr-1">{message.user?.name} on </span>
+          <Suspense fallback={<SlackChannelFallback />}>
+            <SlackChannel channelId={message.slackChannelId} />
           </Suspense>
+          <AvatarList className="ml-4" list={list} />
         </div>
-        {message.userId === session.userId && (
-          <Link href={`/messages/${message.id}/edit`}>
-            <LinkButton>Edit</LinkButton>
-          </Link>
-        )}
-      </BottomBar>
+
+        <h1 className="text-4xl font-medium mb-6">{message.title}</h1>
+        <Markdown>{message.body}</Markdown>
+        <UserSider list={list} />
+        <BottomBar>
+          <div>
+            <Suspense fallback="Loading reactions">
+              <Reactions messageId={message.id} userId={session.userId} />
+            </Suspense>
+          </div>
+          {message.userId === session.userId && (
+            <Link href={`/messages/${message.id}/edit`}>
+              <LinkButton>Edit</LinkButton>
+            </Link>
+          )}
+        </BottomBar>
+      </div>
     </div>
   )
 }

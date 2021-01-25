@@ -1,8 +1,8 @@
 import { take, slice } from "lodash"
+import { useSiderContext } from "utils/contexts/sider-context"
 
 export type AvatarListProps = {
   list?: AvatarType[]
-  handleOnClick: () => void
 } & JSX.IntrinsicElements["div"]
 
 export type AvatarProps = {
@@ -35,7 +35,7 @@ export function Avatar({ avatar: { name, pictureUrl, initials }, size = "small" 
           src={pictureUrl}
           className={`${
             size === "big" ? "h-9 w-9" : "h-7 w-7"
-          } bg-contain inline rounded-full first:ml-0 -ml-2`}
+          } bg-contain inline rounded-full first:ml-0 -ml-2 select-none`}
           alt={name}
         />
       ) : (
@@ -44,7 +44,7 @@ export function Avatar({ avatar: { name, pictureUrl, initials }, size = "small" 
           title={name}
           className={`${
             size === "big" ? "h-9 w-9" : "h-7 w-7"
-          } text-xss rounded-full flex items-center justify-center cursor-default first:ml-0 -ml-2 bg-gradient-to-t text-white from-avatars-${getColor(
+          } select-none text-xss rounded-full flex items-center justify-center cursor-default first:ml-0 -ml-2 bg-gradient-to-t text-white from-avatars-${getColor(
             initials
           )}-start to-avatars-${getColor(initials)}-end`}
         >
@@ -55,12 +55,9 @@ export function Avatar({ avatar: { name, pictureUrl, initials }, size = "small" 
   )
 }
 
-export default function AvatarList({
-  className = "",
-  list,
-  handleOnClick = () => {},
-  ...rest
-}: AvatarListProps) {
+export default function AvatarList({ className = "", list, ...rest }: AvatarListProps) {
+  const { toggleSider } = useSiderContext()
+
   if (!list) return null
 
   const avatars = take(list, 5)
@@ -74,9 +71,9 @@ export default function AvatarList({
         {remaining && remaining.length > 0 && (
           <div
             aria-hidden="true"
-            onClick={() => handleOnClick()}
+            onClick={() => toggleSider()}
             title={remaining.map((avatar) => avatar.name).join(", ")}
-            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
+            className={`select-none h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
           >
             +{remaining.length}
           </div>
