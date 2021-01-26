@@ -9,8 +9,6 @@ import { CreateReactionInput } from "app/reactions/mutations/createReaction"
 import { DeleteReactionInput } from "app/reactions/mutations/deleteReaction"
 
 export default async function ability(ctx: Ctx, { can, cannot }: IGuard<typeof db>) {
-  cannot("manage", "message")
-  cannot("manage", "reaction")
   if (ctx.session.isAuthorized()) {
     // Messages
     can("read", "message", async ({ where }: GetMessageInput) => {
