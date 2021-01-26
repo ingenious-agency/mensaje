@@ -8,7 +8,6 @@ const JSDOMEnvironment = require("jest-environment-jsdom-fourteen")
 const { nanoid } = require("nanoid")
 const util = require("util")
 const exec = util.promisify(require("child_process").exec)
-const url = require("url")
 
 const prismaBinary = "./node_modules/.bin/prisma"
 
