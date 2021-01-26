@@ -16,7 +16,7 @@ class PrismaTestEnvironment extends NodeEnvironment {
     super(config)
 
     // Generate a unique schema identifier for this test context
-    this.schema = `test_${nanoid()}`
+    this.schema = `test_${nanoid(4)}`
 
     // Generate the pg connection string for the test schema
     this.connectionString = `${process.env.DATABASE_URL}?schema=${this.schema}`
