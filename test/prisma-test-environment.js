@@ -9,7 +9,7 @@ const { nanoid } = require("nanoid")
 const util = require("util")
 const exec = util.promisify(require("child_process").exec)
 
-const prismaBinary = "./node_modules/.bin/prisma2"
+const prismaBinary = "./node_modules/.bin/prisma"
 
 class PrismaTestEnvironment extends JSDOMEnvironment {
   constructor(config) {
