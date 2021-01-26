@@ -23,7 +23,7 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
     include: { message: true },
   })
 
-  if (reaction.message?.slackTimeStamp) {
+  if (reaction.message?.slackTimeStamp && process.env.NODE_ENV !== "test") {
     await AddQueue.enqueue({
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,

@@ -37,7 +37,9 @@ export default async function ability(ctx: Ctx, { can, cannot }: IGuard<typeof d
 
     // Reactions
     can("create", "reaction", async ({ data }: CreateReactionInput) => {
-      const messageRequest = db.message.findFirst({ where: { id: data?.id } })
+      const messageRequest = db.message.findUnique({
+        where: { id: data?.message?.connect?.id as string },
+      })
       const userRequest = db.user.findUnique({ where: { id: ctx.session.userId ?? undefined } })
       const [message, user] = await db.$transaction([messageRequest, userRequest])
       if (!message || !user) throw new NotFoundError()
@@ -47,7 +49,7 @@ export default async function ability(ctx: Ctx, { can, cannot }: IGuard<typeof d
       return !!channels.find((channel) => channel.id === message.slackChannelId)
     })
     can("delete", "reaction", async ({ where }: DeleteReactionInput) => {
-      const reactionRequest = db.reaction.findFirst({
+      const reactionRequest = db.reaction.findUnique({
         where: { id: where?.id },
         include: { message: true },
       })
