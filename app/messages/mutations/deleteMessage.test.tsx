@@ -1,7 +1,3 @@
-/**
- * @jest-environment ../../../test/prisma-test-environment
- */
-
 import { AuthorizationError, NotFoundError } from "blitz"
 import db, { Message, User } from "db"
 import faker from "faker"

@@ -4,14 +4,14 @@ const path = require("path")
 require("dotenv").config({ path: path.join(process.cwd(), ".env.test.local") })
 
 const { Client } = require("pg")
-const NodeEnvironment = require("jest-environment-node")
+const JSDOMEnvironment = require("jest-environment-jsdom-fourteen")
 const { nanoid } = require("nanoid")
 const util = require("util")
 const exec = util.promisify(require("child_process").exec)
 
 const prismaBinary = "./node_modules/.bin/prisma2"
 
-class PrismaTestEnvironment extends NodeEnvironment {
+class PrismaTestEnvironment extends JSDOMEnvironment {
   constructor(config) {
     super(config)
 
