@@ -6,7 +6,7 @@
     "studio": "blitz db studio",
     "build": "NODE_ENV=production blitz db migrate && quirrel ci && blitz build",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "test": "NODE_ENV=test jest",
+    "test": "jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "quirrel": "quirrel"
   },
