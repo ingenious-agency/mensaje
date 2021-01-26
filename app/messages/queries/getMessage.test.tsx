@@ -34,7 +34,7 @@ describe("getMessage", () => {
         body: faker.lorem.paragraphs(3),
         createdAt: new Date(),
         updatedAt: new Date(),
-        title: faker.lorem.text(),
+        title: faker.lorem.text(10),
         slackChannelId: faker.lorem.slug(),
         user: { connect: { id: user.id } },
       },
