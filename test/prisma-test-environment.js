@@ -8,6 +8,7 @@ const JSDOMEnvironment = require("jest-environment-jsdom-fourteen")
 const { nanoid } = require("nanoid")
 const util = require("util")
 const exec = util.promisify(require("child_process").exec)
+const url = require("url")
 
 const prismaBinary = "./node_modules/.bin/prisma"
 
@@ -16,7 +17,7 @@ class PrismaTestEnvironment extends JSDOMEnvironment {
     super(config)
 
     // Generate a unique schema identifier for this test context
-    this.schema = `test_${nanoid(2)}`
+    this.schema = `test_${nanoid(4)}`
 
     // Generate the pg connection string for the test schema
     this.connectionString = `${process.env.DATABASE_URL}?schema=${this.schema}`
@@ -46,6 +47,11 @@ class PrismaTestEnvironment extends JSDOMEnvironment {
     await client.connect()
     await client.query(`DROP SCHEMA IF EXISTS "${this.schema}" CASCADE`)
     await client.end()
+
+    // Reset the DATABASE_URL so next setup doesn't fail
+    this.connectionString = `${this.connectionString.split("?")[0]}`
+    this.global.process.env.DATABASE_URL = this.connectionString
+    process.env.DATABASE_URL = this.connectionString
   }
 }
 
