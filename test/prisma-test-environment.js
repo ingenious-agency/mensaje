@@ -28,8 +28,12 @@ class PrismaTestEnvironment extends JSDOMEnvironment {
     process.env.DATABASE_URL = this.connectionString
     this.global.process.env.DATABASE_URL = this.connectionString
 
-    // Run the migrations to ensure our schema has the required structure
-    await exec(`${prismaBinary} migrate up --experimental`)
+    try {
+      // Run the migrations to ensure our schema has the required structure
+      await exec(`${prismaBinary} migrate up --experimental`)
+    } catch (e) {
+      console.error(e)
+    }
 
     return super.setup()
   }
