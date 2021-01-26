@@ -25,10 +25,21 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+
+      - name: Cache dependencies
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
       - name: Migrate database
         run: yarn blitz db migrate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/db
+
       - name: Run tests
         run: yarn test
         env:
