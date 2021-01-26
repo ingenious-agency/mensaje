@@ -33,7 +33,7 @@ describe("createMessage", () => {
           {
             data: {
               body: faker.lorem.paragraphs(),
-              title: faker.lorem.text(10),
+              title: faker.lorem.word(10),
               slackChannelId: faker.lorem.slug(),
             },
           },
@@ -53,7 +53,7 @@ describe("createMessage", () => {
       {
         data: {
           body: faker.lorem.paragraphs(),
-          title: faker.lorem.text(10),
+          title: faker.lorem.word(10),
           slackChannelId: faker.lorem.slug(),
         },
       },

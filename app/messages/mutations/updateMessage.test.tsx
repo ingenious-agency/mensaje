@@ -26,7 +26,7 @@ describe("updateMessage", () => {
         body: faker.lorem.paragraphs(3),
         createdAt: new Date(),
         updatedAt: new Date(),
-        title: faker.lorem.text(10),
+        title: faker.lorem.word(10),
         slackChannelId: faker.lorem.slug(),
         user: { connect: { id: user.id } },
       },
@@ -41,7 +41,7 @@ describe("updateMessage", () => {
     it("throws an AuhtorizationError", async () => {
       try {
         await updateMessage(
-          { data: { title: faker.lorem.text(10) }, where: { id: message.id } },
+          { data: { title: faker.lorem.word(10) }, where: { id: message.id } },
           getSession()
         )
       } catch (e) {
@@ -69,7 +69,7 @@ describe("updateMessage", () => {
       })
       try {
         await updateMessage(
-          { data: { title: faker.lorem.text(10) }, where: { id: message.id } },
+          { data: { title: faker.lorem.word(10) }, where: { id: message.id } },
           getSession({ user: anotherUser })
         )
       } catch (e) {
@@ -84,7 +84,7 @@ describe("updateMessage", () => {
     it("throws an NotFoundError", async () => {
       try {
         await updateMessage(
-          { data: { title: faker.lorem.text(10) }, where: { id: "a message id" } },
+          { data: { title: faker.lorem.word(10) }, where: { id: "a message id" } },
           getSession({ user })
         )
       } catch (e) {
@@ -96,7 +96,7 @@ describe("updateMessage", () => {
   })
 
   it("updates the message", async () => {
-    const title = faker.lorem.text(10)
+    const title = faker.lorem.word(10)
     const returnedValue = await updateMessage(
       { data: { title }, where: { id: message.id } },
       getSession({ user })
