@@ -35,11 +35,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Migrate database
-        run: yarn blitz db migrate
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/db
-
       - name: Run tests
         run: yarn test
         env:
