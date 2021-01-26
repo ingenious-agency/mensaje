@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Migrate database
-        run: blitz db migrate
+        run: yarn blitz db migrate
       - name: Run tests
         run: yarn test
         env:
