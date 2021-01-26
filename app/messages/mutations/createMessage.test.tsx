@@ -1,31 +1,20 @@
 import { AuthorizationError } from "blitz"
-import db, { User } from "db"
+import db from "db"
 import faker from "faker"
+import { getUserAttributes } from "test/factories"
 import { getSession } from "test/utils"
 import createMessage from "./createMessage"
 
-describe("createMessage", () => {
-  let user: User
-  beforeEach(async () => {
-    user = await db.user.create({
-      data: {
-        email: faker.internet.email(),
-        name: faker.name.findName(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        role: "user",
-        slackAccessToken: faker.internet.password(),
-        slackUserId: faker.git.shortSha(),
-        isInstalled: true,
-        avatarUrl: faker.image.imageUrl(),
-      },
-    })
-  })
-  afterEach(async () => {
-    await db.$executeRaw('TRUNCATE "User", "Message" CASCADE')
-    await db.$disconnect()
-  })
+beforeAll(async () => {
+  await db.message.deleteMany({})
+  await db.user.deleteMany({})
+})
 
+afterAll(async () => {
+  await db.$disconnect()
+})
+
+describe("createMessage", () => {
   describe("when user is not authorized", () => {
     it("throws an AuhtorizationError", async () => {
       try {
@@ -48,6 +37,7 @@ describe("createMessage", () => {
   })
 
   it("creates the message", async () => {
+    const user = await db.user.create(getUserAttributes())
     const previousCount = await db.message.count()
     const returnedValue = await createMessage(
       {

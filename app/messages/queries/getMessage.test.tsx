@@ -1,48 +1,30 @@
 import { AuthorizationError, NotFoundError } from "blitz"
 import db, { Message, User } from "db"
-import faker from "faker"
 import { getSession } from "test/utils"
 import getMessage from "./getMessage"
+import { getMessageAttributes } from "test/factories"
 
 jest.mock("app/channels/lib/getUserChannels")
 
 import getUserChannels from "app/channels/lib/getUserChannels" // eslint-disable-line
 
-describe("getMessage", () => {
-  let message: Message
-  let user: User
-  beforeEach(async () => {
-    user = await db.user.create({
-      data: {
-        email: faker.internet.email(),
-        name: faker.name.findName(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        role: "user",
-        slackAccessToken: faker.internet.password(),
-        slackUserId: faker.git.shortSha(),
-        isInstalled: true,
-        avatarUrl: faker.image.imageUrl(),
-      },
-    })
-    message = await db.message.create({
-      data: {
-        body: faker.lorem.paragraphs(3),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        title: faker.lorem.word(10),
-        slackChannelId: faker.lorem.slug(),
-        user: { connect: { id: user.id } },
-      },
-    })
-  })
-  afterEach(async () => {
-    await db.$executeRaw('TRUNCATE "User", "Message" CASCADE')
-    await db.$disconnect()
-  })
+const mockGetUserChannels = getUserChannels as jest.MockedFunction<typeof getUserChannels>
 
+beforeAll(async () => {
+  await db.message.deleteMany({})
+  await db.user.deleteMany({})
+})
+
+afterAll(async () => {
+  await db.$disconnect()
+})
+
+describe("getMessage", () => {
   describe("when user is not authorized", () => {
     it("throws an AuhtorizationError", async () => {
+      const message = (await db.message.create(getMessageAttributes())) as Message & {
+        user: User | null
+      }
       const criteria = { where: { id: message.id } }
       try {
         await getMessage(criteria, getSession())
@@ -57,7 +39,13 @@ describe("getMessage", () => {
   describe("when message doesn't exist", () => {
     it("throws a NotFoundError", async () => {
       try {
-        await getMessage({ where: { id: "not a valid id" } }, getSession({ user }))
+        const message = (await db.message.create(getMessageAttributes())) as Message & {
+          user: User | null
+        }
+        await getMessage(
+          { where: { id: "not a valid id" } },
+          getSession({ user: message?.user as User })
+        )
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)
@@ -69,6 +57,9 @@ describe("getMessage", () => {
   describe("when message user doesn't exist", () => {
     it("throws an AuhtorizationError", async () => {
       try {
+        const message = (await db.message.create(getMessageAttributes())) as Message & {
+          user: User | null
+        }
         await getMessage(
           { where: { id: message.id } },
           getSession({ session: { userId: "some other user" } } as any)
@@ -84,7 +75,10 @@ describe("getMessage", () => {
   describe("when user is not part of the message channel", () => {
     it("throws an AuhtorizationError", async () => {
       try {
-        ;(getUserChannels as any).mockReturnValue([])
+        const message = (await db.message.create(getMessageAttributes())) as Message & {
+          user: User | null
+        }
+        mockGetUserChannels.mockReturnValue(Promise.resolve([]))
         await getMessage(
           { where: { id: message.id } },
           getSession({ session: { userId: "some other user" } } as any)
@@ -98,10 +92,16 @@ describe("getMessage", () => {
   })
 
   it("returns the message", async () => {
-    ;(getUserChannels as any).mockReturnValue([
-      { id: message.slackChannelId, name: message.slackChannelId },
-    ])
-    const returnedValue = await getMessage({ where: { id: message.id } }, getSession({ user }))
+    const message = (await db.message.create(getMessageAttributes())) as Message & {
+      user: User | null
+    }
+    mockGetUserChannels.mockReturnValue(
+      Promise.resolve([{ id: message.slackChannelId, name: message.slackChannelId }])
+    )
+    const returnedValue = await getMessage(
+      { where: { id: message.id } },
+      getSession({ user: message?.user as User })
+    )
     expect(returnedValue.id).toEqual(message.id)
   })
 })

@@ -6,8 +6,8 @@
     "studio": "blitz db studio",
     "build": "NODE_ENV=production blitz db migrate && quirrel ci && blitz build",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "test": "jest",
-    "test:watch": "NODE_ENV=test jest --watch",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "env-cmd -f .env.test.local blitz db migrate && jest --watch",
     "quirrel": "quirrel"
   },
   "browserslist": [
@@ -62,6 +62,7 @@
     "@typescript-eslint/parser": "4.11.1",
     "autoprefixer": "10",
     "babel-eslint": "10.1.0",
+    "env-cmd": "10.1.0",
     "eslint": "7.16.0",
     "eslint-config-react-app": "5.2.1",
     "eslint-plugin-flowtype": "5.2.0",
