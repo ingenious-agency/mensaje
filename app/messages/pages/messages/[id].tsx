@@ -43,7 +43,7 @@ const ShowMessage: BlitzPage = () => {
       <div
         className={`${
           isSiderOpen ? "lg:max-w-2xl" : "lg:max-w-3xl"
-        } lg:m-auto lg:pt-9 pb-20 m-8 min-h-screen transition-all duration-500`}
+        } lg:m-auto pb-20 p-8 transition-all duration-500`}
       >
         <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
 
