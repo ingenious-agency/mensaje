@@ -12,6 +12,7 @@ import Layout from "app/layouts/Layout"
 
 import "app/styles/index.css"
 import { useEffect } from "react"
+import { SiderProvider } from "utils/contexts/sider-context"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -27,7 +28,9 @@ export default function App({ Component, pageProps }: AppProps) {
       }}
     >
       <Layout>
-        <Component {...pageProps} />
+        <SiderProvider>
+          <Component {...pageProps} />
+        </SiderProvider>
       </Layout>
     </ErrorBoundary>
   )
