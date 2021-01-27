@@ -36,7 +36,7 @@ function buildActions({ id }: { id: string }) {
         type: "button",
         text: {
           type: "plain_text",
-          text: "Read tt",
+          text: "Read it",
           emoji: true,
         },
         value: "click_me_123",

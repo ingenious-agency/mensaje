@@ -27,16 +27,25 @@ const ShowMessage: BlitzPage = () => {
     logView()
   }, [id, session.userId, refetch, createMessageViewMutation])
 
-  const list = message.views.map((view) => {
-    const initials = view.user?.name
-      ? `${view.user.name?.split(" ")[0][0]}${view.user.name?.split(" ")[1][0]}`
-      : view.user.email.substr(0, 2)
-    return {
-      name: view.user.name as string,
-      initials,
-      pictureUrl: view.user.avatarUrl ?? undefined,
-    }
-  })
+  const list = message.views
+    .map((view) => {
+      const initials = view.user?.name
+        ? `${view.user.name?.split(" ")[0][0]}${view.user.name?.split(" ")[1][0]}`
+        : view.user.email.substr(0, 2)
+      return {
+        name: view.user.name as string,
+        initials,
+        pictureUrl: view.user.avatarUrl ?? undefined,
+      }
+    })
+    .concat([
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
+    ])
 
   return (
     <div className={`${!isSiderOpen ? "w-full" : "w-3/4"} transition-all duration-500`}>
@@ -45,7 +54,7 @@ const ShowMessage: BlitzPage = () => {
           isSiderOpen ? "lg:max-w-2xl" : "lg:max-w-3xl"
         } lg:m-auto pb-20 p-8 transition-all duration-500`}
       >
-        <img src="/logo-white.svg" alt="Mensaje Logo" className="mb-8" />
+        <img width={54} height={54} className="mb-8" src="/logo-white.svg" alt="Mensaje Logo" />
 
         <div className="text-xss mb-4 flex items-center">
           <span className="mr-1">{message.user?.name} on </span>

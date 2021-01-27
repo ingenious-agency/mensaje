@@ -19,7 +19,7 @@ const Home: BlitzPage = () => {
       >
         <LoginButton />
       </Suspense>
-      <img src="/logo.svg" alt="Mensaje Logo" />
+      <img className="w-44 h-44" src="/logo.svg" alt="Mensaje Logo" />
       <Suspense
         fallback={<p className="text-white text-xs mt-8">Loading your welcome message...</p>}
       >
@@ -43,7 +43,7 @@ function WelcomeMessage() {
             Please{" "}
             <a
               className="underline"
-              href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=2756934506.1603903113093&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
+              href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=${process.env.NEXT_PUBLIC_SLACK_CLIENT_ID}&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
             >
               install the app
             </a>{" "}
