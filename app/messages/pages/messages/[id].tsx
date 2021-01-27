@@ -26,7 +26,7 @@ const ShowMessage: BlitzPage = () => {
 
   return (
     <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
-      <img className="w-44 h-44 mb-8" src="/logo-white.svg" alt="Mensaje Logo" />
+      <img width={54} height={54} className="mb-8" src="/logo-white.svg" alt="Mensaje Logo" />
 
       <div className="text-xss mb-4 flex items-center">
         <span className="mr-1">{message.user?.name} on </span>

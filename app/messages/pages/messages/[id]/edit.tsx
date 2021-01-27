@@ -13,7 +13,7 @@ const EditMessage: BlitzPage = () => {
   const [updateMessageMutation, { isLoading }] = useMutation(updateMessage)
   return (
     <div className="lg:max-w-3xl lg:m-auto lg:mt-9 m-8">
-      <img className="w-44 h-44" src="/logo-white.svg" alt="Mensaje Logo" />
+      <img width={54} height={54} src="/logo-white.svg" alt="Mensaje Logo" />
       <Form
         isLoading={isLoading}
         submitText="Update Message"
