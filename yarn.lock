@@ -500,10 +500,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blitz-guard/core@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@blitz-guard/core/-/core-0.2.0.tgz#9bf38389fea6d3abf151397725ee89a1468da9bc"
-  integrity sha512-ogd/J4fs5liX1CRFBa0dQo8xk57TqVTgNZxXWzwtk5IjI8I15gXHf5PXIxTNGFIfUszm8/c6V7T+Vgv8v/Hvkw==
+"@blitz-guard/core@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@blitz-guard/core/-/core-0.3.0.tgz#c78285cd198eedb9cd7db72d2e1391833b92cf16"
+  integrity sha512-O1XAydMNPSMt1Q1l+guzutsYzj5Gw8sRdmLNyrjh5Df/UBMb+2JbTK8gONSfQ9jc/+mnlJTtLOr3ZuhsdInF7A==
   dependencies:
     runtypes "^5.0.1"
     tslib "2.1.0"
