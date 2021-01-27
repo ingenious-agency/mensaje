@@ -27,28 +27,19 @@ const ShowMessage: BlitzPage = () => {
     logView()
   }, [id, session.userId, refetch, createMessageViewMutation])
 
-  const list = message.views
-    .map((view) => {
-      const initials = view.user?.name
-        ? `${view.user.name?.split(" ")[0][0]}${view.user.name?.split(" ")[1][0]}`
-        : view.user.email.substr(0, 2)
-      return {
-        name: view.user.name as string,
-        initials,
-        pictureUrl: view.user.avatarUrl ?? undefined,
-      }
-    })
-    .concat([
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-      { name: "Cherta", initials: "AJ", pictureUrl: undefined },
-    ])
+  const list = message.views.map((view) => {
+    const initials = view.user?.name
+      ? `${view.user.name?.split(" ")[0][0]}${view.user.name?.split(" ")[1][0]}`
+      : view.user.email.substr(0, 2)
+    return {
+      name: view.user.name as string,
+      initials,
+      pictureUrl: view.user.avatarUrl ?? undefined,
+    }
+  })
 
   return (
-    <div className={`${!isSiderOpen ? "w-full" : "w-3/4"} transition-all duration-500`}>
+    <div className={`${!isSiderOpen ? "w-full" : "lg:w-3/4 w-full"} transition-all duration-500`}>
       <div
         className={`${
           isSiderOpen ? "lg:max-w-2xl" : "lg:max-w-3xl"
