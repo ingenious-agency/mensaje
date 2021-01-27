@@ -1,4 +1,5 @@
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
+
 import { Ctx, NotFoundError } from "blitz"
 import db, { Prisma } from "db"
 
@@ -14,4 +15,4 @@ async function getReaction({ where }: GetReactionInput, ctx: Ctx) {
   return reaction
 }
 
-export default authorize("read", "reaction", getReaction)
+export default Guard.authorize("read", "reaction", getReaction)

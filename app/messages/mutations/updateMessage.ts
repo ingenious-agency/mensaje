@@ -1,6 +1,7 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
+
 import { UpdateMessageInput } from "app/messages/validations"
 
 export type UpdateMessageInputType = Pick<Prisma.MessageUpdateArgs, "data" | "where">
@@ -19,4 +20,4 @@ async function updateMessage({ where, data }: UpdateMessageInputType, ctx: Ctx) 
   return message
 }
 
-export default authorize("update", "message", updateMessage)
+export default Guard.authorize("update", "message", updateMessage)

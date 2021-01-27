@@ -2,7 +2,7 @@ import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 import { CreateMessageInput } from "app/messages/validations"
 import CreateQueue from "app/api/messages/create"
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
 
 type CreateMessageInputType = Pick<Prisma.MessageCreateArgs, "data">
 
@@ -28,4 +28,4 @@ async function createMessage({ data }: CreateMessageInputType, ctx: Ctx) {
   return message
 }
 
-export default authorize("create", "message", createMessage)
+export default Guard.authorize("create", "message", createMessage)
