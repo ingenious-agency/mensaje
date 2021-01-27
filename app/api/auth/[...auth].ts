@@ -9,7 +9,7 @@ export default passportAuth({
     {
       strategy: new SlackStrategy(
         {
-          clientID: process.env.SLACK_CLIENT_ID,
+          clientID: process.env.NEXT_PUBLIC_SLACK_CLIENT_ID,
           clientSecret: process.env.SLACK_CLIENT_SECRET,
           skipUserProfile: false,
           scope: ["identity.basic", "identity.email", "identity.avatar", "identity.team"],
