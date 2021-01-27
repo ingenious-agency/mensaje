@@ -70,7 +70,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           Please{" "}
           <a
             className="underline"
-            href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=${process.env.SLACK_CLIENT_ID}&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
+            href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=${process.env.NEXT_PUBLIC_SLACK_CLIENT_ID}&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
           >
             install the app
           </a>{" "}

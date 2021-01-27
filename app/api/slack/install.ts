@@ -7,7 +7,7 @@ export default async function slack(req: NextApiRequest, res: NextApiResponse) {
 
   const accessResponse = (await web.oauth.v2.access({
     code: req.query.code as string,
-    client_id: process.env.SLACK_CLIENT_ID as string,
+    client_id: process.env.NEXT_PUBLIC_SLACK_CLIENT_ID as string,
     client_secret: process.env.SLACK_CLIENT_SECRET as string,
     redirect_uri: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install`,
   })) as WebAPICallResult & { authed_user: { id: string; access_token: string } } & {

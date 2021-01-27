@@ -40,7 +40,7 @@ You want to change the following environment variables in your `.env.local` file
 
 ```
 DATABASE_URL=postgresql://user@localhost:5432/mensaje
-SLACK_CLIENT_ID=
+NEXT_PUBLIC_SLACK_CLIENT_ID=
 SLACK_CLIENT_SECRET=
 SLACK_TOKEN=
 SLACK_TEAM_ID=
