@@ -1,6 +1,6 @@
 import Guard from "app/guard/ability"
 
-import { Ctx } from "blitz"
+import { Ctx, NotFoundError } from "blitz"
 import db, { Prisma } from "db"
 
 export type GetMessageInput = Pick<Prisma.FindFirstMessageArgs, "where" | "include">
@@ -11,6 +11,8 @@ async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
     where,
     include: { user: true, views: { include: { user: true } } },
   })
+
+  if (!message) throw new NotFoundError()
 
   return message
 }
