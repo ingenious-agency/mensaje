@@ -41,6 +41,7 @@ describe("deleteReaction", () => {
     it("throws an AuhtorizationError", async () => {
       try {
         await deleteReaction({ where: { id: reaction.id } }, getSession())
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -53,6 +54,7 @@ describe("deleteReaction", () => {
     it("throws an NotFoundError", async () => {
       try {
         await deleteReaction({ where: { id: "an id" } }, getSession({ user: message.user as User }))
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)
@@ -77,6 +79,7 @@ describe("deleteReaction", () => {
           { where: { id: anotherReaction.id } },
           getSession({ user: message.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -93,6 +96,7 @@ describe("deleteReaction", () => {
           { where: { id: reaction.id } },
           getSession({ user: message.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)

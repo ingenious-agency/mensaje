@@ -42,6 +42,7 @@ describe("createReaction", () => {
           },
           getSession()
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -64,6 +65,7 @@ describe("createReaction", () => {
           },
           getSession({ user: message.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)
@@ -87,6 +89,7 @@ describe("createReaction", () => {
           },
           getSession({ user: message.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)

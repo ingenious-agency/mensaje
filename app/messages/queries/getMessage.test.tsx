@@ -28,6 +28,7 @@ describe("getMessage", () => {
       const criteria = { where: { id: message.id } }
       try {
         await getMessage(criteria, getSession())
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -46,6 +47,7 @@ describe("getMessage", () => {
           { where: { id: "not a valid id" } },
           getSession({ user: message?.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)
@@ -64,6 +66,7 @@ describe("getMessage", () => {
           { where: { id: message.id } },
           getSession({ session: { userId: "some other user" } } as any)
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -83,6 +86,7 @@ describe("getMessage", () => {
           { where: { id: message.id } },
           getSession({ session: { userId: "some other user" } } as any)
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
