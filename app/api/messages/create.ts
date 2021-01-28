@@ -58,8 +58,6 @@ export default Queue<CreateType>(
       ],
     })
 
-    console.log(slackMessage.ts)
-
     await db.message.update({
       data: { slackTimeStamp: slackMessage.ts as string },
       where: { id: messageId },
