@@ -7,7 +7,6 @@ export type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
 
 async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   ctx.session.authorize()
-  const user = await db.user.findUnique({ where: { id: ctx.session.userId } })
 
   const existingReaction = await db.reaction.findFirst({
     where: {
@@ -20,7 +19,7 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
 
   const reaction = await db.reaction.create({
     data: { ...data, user: { connect: { id: ctx.session.userId } } },
-    include: { message: true },
+    include: { message: { include: { user: true } } },
   })
 
   if (reaction.message?.slackTimeStamp && process.env.NODE_ENV !== "test") {
@@ -28,7 +27,7 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,
       name: data.alt,
-      userToken: user?.slackAccessToken as string,
+      userToken: reaction.message.user?.slackAccessToken as string,
     })
   }
 
