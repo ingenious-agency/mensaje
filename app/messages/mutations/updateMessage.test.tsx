@@ -25,6 +25,7 @@ describe("updateMessage", () => {
           { data: { title: faker.lorem.word(10) }, where: { id: message.id } },
           getSession()
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -56,6 +57,7 @@ describe("updateMessage", () => {
           { data: { title: faker.lorem.word(10) }, where: { id: message.id } },
           getSession({ user: anotherUser })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -74,6 +76,7 @@ describe("updateMessage", () => {
           { data: { title: faker.lorem.word(10) }, where: { id: "a message id" } },
           getSession({ user: message?.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)

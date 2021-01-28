@@ -22,6 +22,7 @@ describe("deleteMessage", () => {
           user: User | null
         }
         await deleteMessage({ where: { id: message.id } }, getSession())
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -50,6 +51,7 @@ describe("deleteMessage", () => {
       })
       try {
         await deleteMessage({ where: { id: message.id } }, getSession({ user: anotherUser }))
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as AuthorizationError
         expect(error.statusCode).toEqual(403)
@@ -68,6 +70,7 @@ describe("deleteMessage", () => {
           { where: { id: "a message id" } },
           getSession({ user: message?.user as User })
         )
+        fail("This call should throw an exception")
       } catch (e) {
         let error = e as NotFoundError
         expect(error.statusCode).toEqual(404)
