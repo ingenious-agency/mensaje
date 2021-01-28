@@ -1,10 +1,22 @@
 import { take, slice } from "lodash"
+import { useSiderContext } from "utils/contexts/sider-context"
 
 export type AvatarListProps = {
-  list?: { name: string; initials: string; pictureUrl?: string }[]
+  list?: AvatarType[]
 } & JSX.IntrinsicElements["div"]
 
-function getColor(string: string) {
+export type AvatarProps = {
+  avatar: AvatarType
+  size?: "small" | "big"
+} & JSX.IntrinsicElements["div"]
+
+export type AvatarType = {
+  name: string
+  initials: string
+  pictureUrl?: string
+}
+
+export function getColor(string: string) {
   const code = string.charCodeAt(0)
   if (code <= 57) return "red"
   if (code <= 69) return "orange"
@@ -14,7 +26,38 @@ function getColor(string: string) {
   if (code <= 90) return "purple"
 }
 
+export function Avatar({ avatar: { name, pictureUrl, initials }, size = "small" }: AvatarProps) {
+  return (
+    <>
+      {pictureUrl ? (
+        <img
+          key={name}
+          src={pictureUrl}
+          className={`${
+            size === "big" ? "h-9 w-9" : "h-7 w-7"
+          } bg-contain inline rounded-full first:ml-0 -ml-2 select-none`}
+          alt={name}
+        />
+      ) : (
+        <div
+          key={name}
+          title={name}
+          className={`${
+            size === "big" ? "h-9 w-9" : "h-7 w-7"
+          } select-none text-xss rounded-full flex items-center justify-center cursor-default first:ml-0 -ml-2 bg-gradient-to-t text-white from-avatars-${getColor(
+            initials
+          )}-start to-avatars-${getColor(initials)}-end`}
+        >
+          {initials}
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function AvatarList({ className = "", list, ...rest }: AvatarListProps) {
+  const { toggleSider } = useSiderContext()
+
   if (!list) return null
 
   const avatars = take(list, 5)
@@ -22,39 +65,19 @@ export default function AvatarList({ className = "", list, ...rest }: AvatarList
   return (
     <div className={`${className}`} {...rest}>
       <div className="flex">
-        {avatars.map((avatar) => {
-          if (avatar.pictureUrl) {
-            return (
-              <img
-                key={avatar.name}
-                src={avatar.pictureUrl}
-                className="h-7 w-7 bg-contain inline rounded-full -ml-2 first:ml-0 border-2 border-white"
-                alt={avatar.name}
-              />
-            )
-          } else {
-            return (
-              <div
-                key={avatar.name}
-                title={avatar.name}
-                className={`h-7 w-7 text-xss rounded-full flex items-center justify-center cursor-default -ml-2 first:ml-0 bg-gradient-to-t border-2 border-white text-white from-avatars-${getColor(
-                  avatar.initials
-                )}-start to-avatars-${getColor(avatar.initials)}-end`}
-              >
-                {avatar.initials}
-              </div>
-            )
-          }
+        {avatars.map((avatar: AvatarType) => {
+          return <Avatar key={avatar.name} avatar={avatar} />
         })}
         {remaining && remaining.length > 0 && (
           <div
+            aria-hidden="true"
+            onClick={() => toggleSider()}
             title={remaining.map((avatar) => avatar.name).join(", ")}
-            className={`h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 cursor-default -ml-2 first:ml-0 border-2 border-white bg-gray-350`}
+            className={`select-none h-7 w-7 text-xss rounded-full flex items-center justify-center text-gray-700 -ml-2 first:ml-0 border-2 border-white bg-gray-350 cursor-pointer`}
           >
             +{remaining.length}
           </div>
         )}
-        {}
       </div>
     </div>
   )

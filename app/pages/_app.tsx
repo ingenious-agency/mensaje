@@ -12,6 +12,7 @@ import Layout from "app/layouts/Layout"
 
 import "app/styles/index.css"
 import { useEffect } from "react"
+import { SiderProvider } from "utils/contexts/sider-context"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -27,7 +28,9 @@ export default function App({ Component, pageProps }: AppProps) {
       }}
     >
       <Layout>
-        <Component {...pageProps} />
+        <SiderProvider>
+          <Component {...pageProps} />
+        </SiderProvider>
       </Layout>
     </ErrorBoundary>
   )
@@ -70,7 +73,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           Please{" "}
           <a
             className="underline"
-            href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=${process.env.SLACK_CLIENT_ID}&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
+            href={`https://slack.com/oauth/v2/authorize?redirect_uri=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/slack/install&client_id=${process.env.NEXT_PUBLIC_SLACK_CLIENT_ID}&scope=commands&user_scope=users.profile:read,channels:read,chat:write,groups:read,reactions:write`}
           >
             install the app
           </a>{" "}
