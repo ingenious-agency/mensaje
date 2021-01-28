@@ -7,7 +7,7 @@
     "build": "NODE_ENV=production blitz db migrate && quirrel ci && blitz build",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "NODE_ENV=test jest",
-    "test:watch": "env-cmd -f .env.test.local blitz db migrate && jest --watch",
+    "test:watch": "NODE_ENV=test jest --watch",
     "quirrel": "quirrel"
   },
   "browserslist": [
