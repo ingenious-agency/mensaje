@@ -66,7 +66,7 @@ $ yarn quirrel
 
 You want to copy your file `.env.local` to `.env.test.local` and change the `DATABASE_URL` accordinghly.
 
-To kick off the tests you can `yarn test` or `yarn test:watch`. The watch verison will run everything and wait for changes in your code to re run important affected ones.
+To kick off the tests you can `yarn test` or `yarn test:watch`. The watch version will run everything and wait for changes in your code to re run important affected ones.
 
 ## Deployment
 
