@@ -1,7 +1,7 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 import RemoveQueue from "app/api/reactions/remove"
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
 
 export type DeleteReactionInput = Pick<Prisma.ReactionDeleteArgs, "where">
 
@@ -26,4 +26,4 @@ async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
   return reaction
 }
 
-export default authorize("delete", "reaction", deleteReaction)
+export default Guard.authorize("delete", "reaction", deleteReaction)

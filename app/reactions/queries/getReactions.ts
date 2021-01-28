@@ -1,4 +1,5 @@
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
+
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
@@ -26,4 +27,4 @@ async function getReactions({ where, orderBy, skip = 0, take }: GetReactionsInpu
   }
 }
 
-export default authorize("read", "reaction", getReactions)
+export default Guard.authorize("read", "reaction", getReactions)

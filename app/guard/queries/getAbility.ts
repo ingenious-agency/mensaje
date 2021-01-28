@@ -1,3 +1,2 @@
-// import { getAbility } from "../index"
-// export default getAbility
-export {}
+import Guard from "../ability"
+export default Guard.getAbility

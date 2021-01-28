@@ -1,6 +1,6 @@
-import { Ctx, NotFoundError } from "blitz"
+import { NotFoundError } from "blitz"
 import db from "db"
-import { IGuard } from "@blitz-guard/core"
+import { GuardBuilder, PrismaModelsType } from "@blitz-guard/core"
 import getUserChannels from "app/channels/lib/getUserChannels"
 import { UpdateMessageInputType } from "app/messages/mutations/updateMessage"
 import { DeleteMessageInput } from "app/messages/mutations/deleteMessage"
@@ -8,7 +8,9 @@ import { GetMessageInput } from "app/messages/queries/getMessage"
 import { CreateReactionInput } from "app/reactions/mutations/createReaction"
 import { DeleteReactionInput } from "app/reactions/mutations/deleteReaction"
 
-export default async function ability(ctx: Ctx, { can, cannot }: IGuard<typeof db>) {
+type ExtendedResourceTypes = PrismaModelsType<typeof db>
+
+export default GuardBuilder<ExtendedResourceTypes>(async (ctx, { can, cannot }) => {
   if (ctx.session.isAuthorized()) {
     // Messages
     can("read", "message", async ({ where }: GetMessageInput) => {
@@ -63,4 +65,4 @@ export default async function ability(ctx: Ctx, { can, cannot }: IGuard<typeof d
     })
     can("read", "reaction")
   }
-}
+})

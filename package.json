@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@blitz-guard/core": "0.1.12",
+    "@blitz-guard/core": "0.3.0",
     "@prisma/cli": "~2.12",
     "@prisma/client": "~2.12",
     "@quirrel/next": "0.10.0",
