@@ -1,4 +1,5 @@
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
+
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
@@ -14,4 +15,4 @@ async function getMessage({ where }: GetMessageInput, ctx: Ctx) {
   return message
 }
 
-export default authorize("read", "message", getMessage)
+export default Guard.authorize("read", "message", getMessage)

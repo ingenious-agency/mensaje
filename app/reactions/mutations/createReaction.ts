@@ -1,7 +1,7 @@
 import { Ctx } from "blitz"
 import AddQueue from "app/api/reactions/add"
 import db, { Prisma } from "db"
-import { authorize } from "app/guard"
+import Guard from "app/guard/ability"
 
 export type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
 
@@ -35,4 +35,4 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   return reaction
 }
 
-export default authorize("create", "reaction", createReaction)
+export default Guard.authorize("create", "reaction", createReaction)
