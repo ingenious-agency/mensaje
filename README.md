@@ -52,7 +52,7 @@ All slack tokens and secrets you can get them from Slack upon app creation. If t
 The easiest way to get your `SLACK_TEAM_ID` is following what's described in [this Stack Overflow answer](https://stackoverflow.com/a/57246565).
 
 ```bash
-$ yarn blitz db migrate
+$ yarn blitz prisma migrate dev --preview-feature
 $ yarn start
 ```
 

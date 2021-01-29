@@ -9,8 +9,6 @@ const { nanoid } = require("nanoid")
 const util = require("util")
 const exec = util.promisify(require("child_process").exec)
 
-const prismaBinary = "./node_modules/.bin/prisma"
-
 class PrismaTestEnvironment extends JSDOMEnvironment {
   constructor(config) {
     super(config)
@@ -29,8 +27,8 @@ class PrismaTestEnvironment extends JSDOMEnvironment {
     this.global.process.env.DATABASE_URL = this.connectionString
 
     try {
-      // Run the migrations to ensure our schema has the required structure
-      await exec(`${prismaBinary} migrate up --experimental`)
+      // Reset the database and run the migrations to ensure our schema has the required structure
+      await exec(`prisma migrate reset --force --preview-feature`)
     } catch (e) {
       console.error(e)
     }

@@ -17,8 +17,11 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   })
   if (existingReaction) return existingReaction
 
+  // Add the user connection to data
+  data.user = { connect: { id: ctx.session.userId } }
+
   const reaction = await db.reaction.create({
-    data: { ...data, user: { connect: { id: ctx.session.userId } } },
+    data: data,
     include: { message: { include: { user: true } } },
   })
 
