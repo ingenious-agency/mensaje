@@ -3,7 +3,7 @@ import Guard from "app/guard/ability"
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
-type GetReactionsInput = Pick<Prisma.FindManyReactionArgs, "where" | "orderBy" | "skip" | "take">
+type GetReactionsInput = Pick<Prisma.ReactionFindManyArgs, "where" | "orderBy" | "skip" | "take">
 
 async function getReactions({ where, orderBy, skip = 0, take }: GetReactionsInput, ctx: Ctx) {
   ctx.session.authorize()
