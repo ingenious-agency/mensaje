@@ -1,12 +1,11 @@
+import Guard from "app/guard/ability"
+
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
 type GetReactionsInput = Pick<Prisma.FindManyReactionArgs, "where" | "orderBy" | "skip" | "take">
 
-export default async function getReactions(
-  { where, orderBy, skip = 0, take }: GetReactionsInput,
-  ctx: Ctx
-) {
+async function getReactions({ where, orderBy, skip = 0, take }: GetReactionsInput, ctx: Ctx) {
   ctx.session.authorize()
 
   const reactions = await db.reaction.findMany({
@@ -27,3 +26,5 @@ export default async function getReactions(
     count,
   }
 }
+
+export default Guard.authorize("read", "reaction", getReactions)

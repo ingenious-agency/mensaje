@@ -1,20 +1,16 @@
-import { AuthorizationError, Ctx } from "blitz"
-import db, { Prisma, User } from "db"
-import getReaction from "app/reactions/queries/getReaction"
+import { Ctx } from "blitz"
+import db, { Prisma } from "db"
 import RemoveQueue from "app/api/reactions/remove"
+import Guard from "app/guard/ability"
 
-type DeleteReactionInput = Pick<Prisma.ReactionDeleteArgs, "where">
+export type DeleteReactionInput = Pick<Prisma.ReactionDeleteArgs, "where">
 
-export default async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
+async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
   ctx.session.authorize()
-  const user = (await db.user.findUnique({ where: { id: ctx.session.userId } })) as User
-
-  const existingReaction = await getReaction({ where }, ctx)
-  if (existingReaction.userId !== ctx.session.userId) throw new AuthorizationError()
 
   const reaction = await db.reaction.delete({
     where,
-    include: { message: true },
+    include: { message: { include: { user: true } } },
   })
 
   if (reaction.message?.slackTimeStamp) {
@@ -22,9 +18,11 @@ export default async function deleteReaction({ where }: DeleteReactionInput, ctx
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,
       name: reaction.alt,
-      userToken: user.slackAccessToken,
+      userToken: reaction.message.user?.slackAccessToken as string,
     })
   }
 
   return reaction
 }
+
+export default Guard.authorize("delete", "reaction", deleteReaction)

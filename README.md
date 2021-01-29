@@ -62,6 +62,12 @@ In a different terminal run de dev version of Quirrel.
 $ yarn quirrel
 ```
 
+## Local testing
+
+You want to copy your file `.env.local` to `.env.test.local` and change the `DATABASE_URL` accordinghly.
+
+To kick off the tests you can `yarn test` or `yarn test:watch`. The watch version will run everything and wait for changes in your code to re run important affected ones.
+
 ## Deployment
 
 Pushing to `main` triggers a prod deploy while pushing to any other branch doesn't trigger any preview deployment.

@@ -1,13 +1,13 @@
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
+import Guard from "app/guard/ability"
+
 import { UpdateMessageInput } from "app/messages/validations"
-import hasPermissions from "app/messages/queries/hasPermissions"
 
-type UpdateMessageInputType = Pick<Prisma.MessageUpdateArgs, "data" | "where">
+export type UpdateMessageInputType = Pick<Prisma.MessageUpdateArgs, "data" | "where">
 
-export default async function updateMessage({ where, data }: UpdateMessageInputType, ctx: Ctx) {
+async function updateMessage({ where, data }: UpdateMessageInputType, ctx: Ctx) {
   ctx.session.authorize()
-  hasPermissions(where.id, ctx)
 
   const { title, body } = UpdateMessageInput.parse(data)
 
@@ -19,3 +19,5 @@ export default async function updateMessage({ where, data }: UpdateMessageInputT
 
   return message
 }
+
+export default Guard.authorize("update", "message", updateMessage)

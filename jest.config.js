@@ -6,7 +6,7 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
   // Add type checking to Typescript test files
   preset: "ts-jest",
-  testEnvironment: "jest-environment-jsdom-fourteen",
+  testEnvironment: "./test/prisma-test-environment.js",
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
   testPathIgnorePatterns: ["/node_modules/", "/.blitz/", "/.next/", "<rootDir>/db/migrations"],

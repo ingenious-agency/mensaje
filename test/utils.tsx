@@ -1,7 +1,9 @@
 import React from "react"
-import { RouterContext, BlitzRouter } from "blitz"
+import { RouterContext, BlitzRouter, Ctx, SessionContext } from "blitz"
 import { render as defaultRender } from "@testing-library/react"
 import { renderHook as defaultRenderHook } from "@testing-library/react-hooks"
+import { User } from "@prisma/client"
+import { merge } from "lodash"
 
 export * from "@testing-library/react"
 
@@ -91,3 +93,30 @@ type RenderOptions = DefaultParams[1] & { router?: Partial<BlitzRouter> }
 type DefaultHookParams = Parameters<typeof defaultRenderHook>
 type RenderHook = DefaultHookParams[0]
 type RenderHookOptions = DefaultHookParams[1] & { router?: Partial<BlitzRouter> }
+
+export type BlitzGuardCtx = Ctx & { session: Partial<SessionContext> } & { securedByGuard: boolean }
+
+export function getSession({ user, ...rest }: Partial<BlitzGuardCtx> & { user?: User } = {}) {
+  const defaults = {
+    session: {
+      authorize: jest.fn(),
+      isAuthorized: jest.fn(() => !!user),
+      userId: user?.id,
+      roles: user ? ["user"] : [],
+      getPrivateData: jest.fn(),
+      create: jest.fn(),
+      handle: null,
+      publicData: {
+        roles: user ? ["user"] : [],
+        userId: user?.id,
+      },
+      revoke: jest.fn(),
+      revokeAll: jest.fn(),
+      setPrivateData: jest.fn(),
+      setPublicData: jest.fn(),
+    },
+    securedByGuard: true,
+  }
+
+  return merge(defaults, rest) as BlitzGuardCtx
+}
