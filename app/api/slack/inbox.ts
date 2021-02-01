@@ -51,7 +51,7 @@ export default CronJob(
   "0 10 * * 0-5", // Every day of the week at 10am
   async (_job) => {
     const web = new WebClient(process.env.SLACK_TOKEN)
-    const users = await db.user.findMany()
+    const users = await db.user.findMany({ where: { isInstalled: true } })
 
     for (let user of users) {
       // Gets the already seen messages
