@@ -21,6 +21,6 @@ services:
       - fromGroup: mensaje
 
 databases:
-  - name: pact-db
+  - name: mensaje-db
     plan: standard
     previewPlan: starter
