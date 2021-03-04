@@ -7,7 +7,7 @@ export type GetChannelInput = { where: { id: string } }
 export type Result = WebAPICallResult & { channel: Channel }
 
 export default async function getChannel({ where }: GetChannelInput, ctx: Ctx): Promise<Result> {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const user = await db.user.findFirst({ where: { id: ctx.session.userId } })
 

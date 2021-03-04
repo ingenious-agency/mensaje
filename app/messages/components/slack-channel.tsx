@@ -4,6 +4,8 @@ import { useQuery } from "blitz"
 export type SlackChannelProps = JSX.IntrinsicElements["small"] & { channelId: string }
 export default function SlackChannel({ className = "", channelId, ...rest }: SlackChannelProps) {
   const [response] = useQuery(getChannel, { where: { id: channelId } }, { enabled: !!channelId })
+  if (!response) return null
+
   return (
     <small className={`text-xss ${className}`} {...rest}>
       <span className="bg-gray-300 py-1 px-2">#{response.channel.name}</span>

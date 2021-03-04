@@ -7,10 +7,12 @@ import { useMutation, useQuery, setQueryData } from "blitz"
 
 export type ReactionsProps = {
   messageId: string
-  userId: string
+  userId: string | null
 }
 
 export default function Reactions({ messageId, userId }: ReactionsProps) {
+  if (!userId) return null
+
   return (
     <div className="flex">
       {Object.keys(emojis).map((key: EmojiKey) => {

@@ -6,7 +6,7 @@ import Guard from "app/guard/ability"
 export type CreateReactionInput = Pick<Prisma.ReactionCreateArgs, "data">
 
 async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const existingReaction = await db.reaction.findFirst({
     where: {
@@ -17,9 +17,11 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
   })
   if (existingReaction) return existingReaction
 
+  data.user = { connect: { id: ctx.session.userId } }
+
   const reaction = await db.reaction.create({
-    data: { ...data, user: { connect: { id: ctx.session.userId } } },
-    include: { message: { include: { user: true } } },
+    data,
+    include: { message: true, user: true },
   })
 
   if (reaction.message?.slackTimeStamp && process.env.NODE_ENV !== "test") {
@@ -27,7 +29,7 @@ async function createReaction({ data }: CreateReactionInput, ctx: Ctx) {
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,
       name: data.alt,
-      userToken: reaction.message.user?.slackAccessToken as string,
+      userToken: reaction.user?.slackAccessToken as string,
     })
   }
 
