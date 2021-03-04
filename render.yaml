@@ -22,5 +22,5 @@ services:
 
 databases:
   - name: mensaje-db
-    plan: starter
-    previewPlan: starter plus
+    plan: starter plus
+    previewPlan: starter
