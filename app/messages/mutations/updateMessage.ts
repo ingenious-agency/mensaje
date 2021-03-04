@@ -7,7 +7,7 @@ import { UpdateMessageInput } from "app/messages/validations"
 export type UpdateMessageInputType = Pick<Prisma.MessageUpdateArgs, "data" | "where">
 
 async function updateMessage({ where, data }: UpdateMessageInputType, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const { title, body } = UpdateMessageInput.parse(data)
 

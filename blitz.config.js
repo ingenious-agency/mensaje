@@ -1,4 +1,4 @@
-const { sessionMiddleware, unstable_simpleRolesIsAuthorized } = require("@blitzjs/server")
+const { sessionMiddleware, simpleRolesIsAuthorized } = require("blitz")
 const { BlitzGuardMiddleware } = require("@blitz-guard/core/dist/middleware.js")
 
 module.exports = {
@@ -12,9 +12,12 @@ module.exports = {
       ],
     }),
     sessionMiddleware({
-      unstable_isAuthorized: unstable_simpleRolesIsAuthorized,
+      isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
+  experimental: {
+    isomorphicResolverImports: false,
+  },
   /* Uncomment this to customize the webpack config
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Note: we provide webpack above so you should not `require` it

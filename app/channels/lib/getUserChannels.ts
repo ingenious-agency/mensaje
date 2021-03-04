@@ -7,6 +7,7 @@ export default async function getUserChannels({ user }: { user: User }) {
   const result = (await web.users.conversations({
     user: user?.slackUserId,
     types: "public_channel,private_channel",
+    limit: 300,
   })) as WebAPICallResult & { channels: Channel[] }
 
   return result.channels

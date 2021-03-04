@@ -2,7 +2,7 @@ import { Ctx } from "blitz"
 import db from "db"
 
 export default async function createMessageView({ messageId }: { messageId: string }, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const messageView = await db.messageView.upsert({
     create: {

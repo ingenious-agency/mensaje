@@ -7,7 +7,7 @@ import Guard from "app/guard/ability"
 type CreateMessageInputType = Pick<Prisma.MessageCreateArgs, "data">
 
 async function createMessage({ data }: CreateMessageInputType, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
   const { title, body, slackChannelId } = CreateMessageInput.parse(data)
 
   const message = await db.message.create({

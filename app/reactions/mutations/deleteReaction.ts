@@ -6,11 +6,11 @@ import Guard from "app/guard/ability"
 export type DeleteReactionInput = Pick<Prisma.ReactionDeleteArgs, "where">
 
 async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const reaction = await db.reaction.delete({
     where,
-    include: { message: { include: { user: true } } },
+    include: { message: true, user: true },
   })
 
   if (reaction.message?.slackTimeStamp) {
@@ -18,7 +18,7 @@ async function deleteReaction({ where }: DeleteReactionInput, ctx: Ctx) {
       channel: reaction.message.slackChannelId,
       timestamp: reaction.message.slackTimeStamp,
       name: reaction.alt,
-      userToken: reaction.message.user?.slackAccessToken as string,
+      userToken: reaction.user?.slackAccessToken as string,
     })
   }
 
