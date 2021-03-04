@@ -8,7 +8,7 @@ services:
     previewPlan: starter
     buildCommand: yarn --frozen-lockfile --prod=false && blitz prisma migrate deploy --preview-feature && blitz build
     # If you have an out of memory error, change startCommand to "yarn next start"
-    startCommand: blitz start --production
+    startCommand: blitz start
     afterFirstDeployCommand: blitz db seed
     envVars:
       - key: NODE_ENV
