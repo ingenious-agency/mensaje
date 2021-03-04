@@ -4,7 +4,7 @@ services:
   - type: web
     name: mensaje-web
     env: node
-    plan: starter
+    plan: starter plus
     previewPlan: starter
     buildCommand: yarn --frozen-lockfile --prod=false && blitz prisma migrate deploy --preview-feature && blitz build
     # If you have an out of memory error, change startCommand to "yarn next start"
@@ -23,4 +23,4 @@ services:
 databases:
   - name: mensaje-db
     plan: starter
-    previewPlan: starter
+    previewPlan: starter plus
