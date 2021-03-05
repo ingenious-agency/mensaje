@@ -11,8 +11,7 @@ import { DeleteReactionInput } from "app/reactions/mutations/deleteReaction"
 type ExtendedResourceTypes = PrismaModelsType<typeof db>
 
 export default GuardBuilder<ExtendedResourceTypes>(async (ctx, { can, cannot }) => {
-  cannot("manage", "all")
-  if (ctx.session.isAuthorized()) {
+  if (ctx.session.$isAuthorized()) {
     // Messages
     can("read", "message", async ({ where }: GetMessageInput) => {
       const messageRequest = db.message.findFirst({ where: { id: where?.id } })
