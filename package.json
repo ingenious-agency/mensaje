@@ -47,7 +47,7 @@
     "markdown-to-jsx": "7.1.1",
     "passport-slack": "0.0.7",
     "prisma": "2.17.0",
-    "react": "0.0.0-experimental-4ead6b530",
+    "react": "0.14.0",
     "react-dom": "0.0.0-experimental-4ead6b530",
     "react-error-boundary": "2.3.2",
     "react-hook-form": "6.14.0",
